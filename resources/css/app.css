@@ -1,0 +1,16 @@
+.background-image {
+  background-image: url('/img/background.jpg');
+  background-position: center center;
+  background-size: cover;
+  margin-top: -24px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  filter: opacity(50%);
+}
+
+.welcome {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
