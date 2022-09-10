@@ -1,13 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
+  <div class="background-image"></div>
+  <div class="container center">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">{{ __('Login') }}</div>
-
+        <div class="card pt-4 pb-4">
           <div class="card-body">
+            <div class="mb-3">
+              <div class="d-flex justify-content-center align-items-center">
+                <img src="/img/logo.png" style="width: 6rem;">
+              </div>
+
+              <div class="d-flex justify-content-center align-items-center">
+                <h4>Inicio de sesión</h4>
+              </div>
+            </div>
+
             <form method="POST" action="{{ route('login') }}">
               @csrf
 
@@ -69,7 +78,7 @@
 
                   <a class="btn btn-link text-decoration-none"
                     href="{{ route('register') }}">
-                    También puede registrarse'
+                    También puede registrarse
                   </a>
                 </div>
               </div>
