@@ -49,6 +49,25 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('alert', [
+            'message' => "Datos actualizados del usuario $user->email ",
+            'type' => 'info'
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return back()->with('alert', [
+            'message' => "El usuario $user->email ha sido eliminado",
+            'type' => 'danger'
+        ]);
     }
 }

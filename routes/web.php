@@ -24,4 +24,4 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'admin'])
     ->resource('users', UserController::class)
-    ->except(['create', 'store', 'show', 'destroy']);
+    ->except(['create', 'store', 'show']);
