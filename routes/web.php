@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,9 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'admin'])
     ->resource('users', UserController::class)
     ->except(['create', 'store', 'show']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::resource('profile', ProfileController::class)
+        ->except(['create', 'store', 'show', 'edit', 'destroy']);
+});
