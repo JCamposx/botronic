@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,5 +31,11 @@ Route::middleware(['auth', 'admin'])
 Route::middleware('auth')->group(function () {
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::resource('profile', ProfileController::class)
-        ->except(['create', 'store', 'show', 'edit', 'destroy']);
+        ->except(['create', 'store', 'show', 'edit', 'destroy']);      
 });
+
+use App\Http\Controllers\BotmanController;
+
+Route::match(['get','post'], 'botman', [BotmanController::class, "handle"]);
+
+

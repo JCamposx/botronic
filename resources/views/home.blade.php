@@ -14,10 +14,19 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Bienvenido a la pagina principal, a continuacion se le mostrara los bots predeterminados para su negocio') }}
                 </div>
             </div>
         </div>
+        <link rel="stylesheet" href = "https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css" type="text/css">
+            <script>
+                var botmanWidget={
+                        aboutText:"Bienvenido",
+                        introMessage:"Escriba Hola para empezar "
+                }
+            </script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
     </div>
 </div>
 @endsection
