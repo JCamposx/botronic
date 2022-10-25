@@ -17,6 +17,16 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css"
+                type="text/css">
+
+                <script>
+                    var botmanWidget={
+                        aboutText:"Bienvenido",
+                        introMessage:"Bienvenido escriba Hola para comenzar"
+                    }
+                </script>
+            <script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
         </div>
     </div>
 </div>

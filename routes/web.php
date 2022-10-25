@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BotmanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('profile', ProfileController::class)
         ->except(['create', 'store', 'show', 'edit', 'destroy']);
 });
+
+
+Route::match(['get','post'], 'botman', [BotmanController::class, "handle"]);
