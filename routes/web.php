@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BotController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -31,7 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::resource('profile', ProfileController::class)
         ->except(['create', 'store', 'show', 'edit', 'destroy']);
-});
+    });
 
+Route::middleware('auth')->resource('bots', BotController::class);
 
-Route::match(['get','post'], 'botman', [BotmanController::class, "handle"]);
+Route::match(['get', 'post'], 'botman', [BotmanController::class, "handle"]);

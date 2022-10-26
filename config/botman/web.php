@@ -1,9 +1,8 @@
 <?php
 
-
 return
-[
-  'matchingData'=>[
-    'driver' =>'web'
-    ] 
-];
+    [
+        'matchingData' => [
+            'driver' => 'web'
+        ]
+    ];
