@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'bots' => Auth::user()->bots()->get()
+            'bots' => Auth::user()->bots()->latest()->take(6)->get()
         ]);
     }
 }

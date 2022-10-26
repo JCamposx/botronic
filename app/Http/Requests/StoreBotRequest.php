@@ -25,7 +25,11 @@ class StoreBotRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'description' => 'required'
+            'description' => 'required',
+            'ip' => 'required|ipv4',
+            'username' => 'required',
+            'password' => 'required',
+            'db_name' => 'required',
         ];
     }
 }

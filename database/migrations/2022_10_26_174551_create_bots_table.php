@@ -18,6 +18,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->string('ip');
+            $table->string('username');
+            $table->string('password');
+            $table->string('db_name');
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

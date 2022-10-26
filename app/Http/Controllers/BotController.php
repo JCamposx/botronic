@@ -6,6 +6,10 @@ use App\Http\Requests\StoreBotRequest;
 use App\Models\Bot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use PDO;
+use PDOException;
 
 class BotController extends Controller
 {
@@ -39,6 +43,24 @@ class BotController extends Controller
     {
         $data = $request->validated();
 
+        $status_conn = $this->connectDB(
+            $data['ip'],
+            $data['username'],
+            $data['password'],
+            $data['db_name']
+        );
+
+        if (!$status_conn['success']) {
+            $message = $status_conn['message'];
+
+            return back()->withInput($data)->with('alert', [
+                'message' => "Conexión fallida: $message",
+                'type' => 'danger'
+            ]);
+        }
+
+        $data['password'] = Hash::make($data['password']);
+
         $bot = Auth::user()->bots()->create($data);
 
         return redirect()->route('home')->with('alert', [
@@ -50,10 +72,10 @@ class BotController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Bot  $chatbot
+     * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
-    public function show(Bot $chatbot)
+    public function show(Bot $bot)
     {
         //
     }
@@ -61,10 +83,10 @@ class BotController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Bot  $chatbot
+     * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bot $chatbot)
+    public function edit(Bot $bot)
     {
         //
     }
@@ -73,10 +95,10 @@ class BotController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bot  $chatbot
+     * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bot $chatbot)
+    public function update(Request $request, Bot $bot)
     {
         //
     }
@@ -84,11 +106,56 @@ class BotController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Bot  $chatbot
+     * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bot $chatbot)
+    public function destroy(Bot $bot)
     {
         //
+    }
+
+    /**
+     * Connect to remote database
+     *
+     * @param string $ip
+     * @param string $username
+     * @param string $password
+     * @param string $db_name
+     * @return array[
+     *      'success' => bool,
+     *      'message' => string
+     * ]
+     */
+    private function connectDB($ip, $username, $password, $db_name)
+    {
+        try {
+            $conn = new PDO(
+                "mysql:host=$ip;dbname=$db_name",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_TIMEOUT => 5,
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                ]
+            );
+
+            return [
+                "success" => true,
+                "message" => "Conexión exitosa"
+            ];
+
+            // $result = $conn->query("SELECT * FROM test");
+
+            // $result->setFetchMode(PDO::FETCH_ASSOC);
+
+            // foreach ($result as $r) {
+            //     echo print_r($r);
+            // }
+        } catch (PDOException $e) {
+            return [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
+        }
     }
 }
