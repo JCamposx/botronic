@@ -13,13 +13,13 @@ class BotmanController extends Controller
 
         $botman->hears("{message}",function($botman,$message)
         {
-            if($message=="Hola")
+            if($message=="Iniciar")
             {
                 $this->askName($botman);
             }
             else
             {
-                $botman->reply("Escriba Hola para Empeza! :D ");
+                $botman->reply("Escriba Iniciar para Empezar!😁 ");
             }
         });
         $botman->listen();
@@ -27,10 +27,11 @@ class BotmanController extends Controller
 
     public function askName($botman)
     {
-        $botman->ask("¿Cual es tu nombre", function(Answer $answer)
+        $botman->ask("¿Como te gustaria que te llame? 🤓", function(Answer $answer)
         {
             $name=$answer->getText();
-            $this->say("Gusto en conocerte ".$name);
+            $this->say("🤗 Gusto en conocerte, ".$name);
+            $this->say("Asi es como se veria el ChatBot para tus clientes 😎");
         });
     }
 }

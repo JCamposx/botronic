@@ -22,8 +22,9 @@
 
                 <script>
                     var botmanWidget={
+                        title:"Chatbot 🤖",
                         aboutText:"Bienvenido",
-                        introMessage:"Bienvenido escriba Hola para comenzar"
+                        introMessage:"Bienvenido,Escriba Iniciar para empezar! 😁",
                     }
                 </script>
             <script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
