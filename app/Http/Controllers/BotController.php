@@ -118,7 +118,12 @@ class BotController extends Controller
      */
     public function destroy(Bot $bot)
     {
-        //
+        $bot->delete();
+
+        return back()->with('alert', [
+            'message' => "El bot \"$bot->name\" ha sido eliminado correctamente",
+            'type' => 'danger'
+        ]);
     }
 
     /**
