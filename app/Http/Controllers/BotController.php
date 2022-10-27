@@ -20,7 +20,12 @@ class BotController extends Controller
      */
     public function index()
     {
-        //
+        $bots = Auth::user()
+            ->bots()
+            ->orderBy('name')
+            ->paginate(9);
+
+        return view('bots.index', compact('bots'));
     }
 
     /**

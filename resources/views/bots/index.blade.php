@@ -2,7 +2,9 @@
 
 @section('content')
   <div class="container">
-    <h3>Últimos bots añadidos</h3>
+    <h3>Mis bots</h3>
+
+    {{ $bots->links() }}
 
     @if (session('alert'))
       <div

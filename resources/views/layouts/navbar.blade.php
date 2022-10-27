@@ -36,6 +36,10 @@
           @endif
         @else
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
+          </li>
+
+          <li class="nav-item">
             <a class="nav-link" href="{{ route('bots.create') }}">Nuevo bot</a>
           </li>
 
