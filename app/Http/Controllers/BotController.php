@@ -7,12 +7,16 @@ use App\Models\Bot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 use PDO;
 use PDOException;
 
 class BotController extends Controller
 {
+    public function __construct()
+    {
+        $this->conn = null;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,21 +52,18 @@ class BotController extends Controller
     {
         $data = $request->validated();
 
-        $status_conn = $this->connectDB(
-            $data['ip'],
-            $data['username'],
-            $data['password'],
-            $data['db_name']
-        );
+        $table_names = $this->verify_db_and_tables($data);
 
-        if (!$status_conn['success']) {
-            $message = $status_conn['message'];
+        if (is_string($table_names)) {
+            $message = $table_names;
 
             return back()->withInput($data)->with('alert', [
                 'message' => "Conexión fallida: $message",
                 'type' => 'danger'
             ]);
         }
+
+        $data['table_names'] = json_encode($table_names);
 
         $data['password'] = Hash::make($data['password']);
 
@@ -82,7 +83,7 @@ class BotController extends Controller
      */
     public function show(Bot $bot)
     {
-        //
+        return view('bots.show', compact('bot'));
     }
 
     /**
@@ -93,6 +94,8 @@ class BotController extends Controller
      */
     public function edit(Bot $bot)
     {
+        $bot['table_names'] = implode(", ", json_decode($bot['table_names']));
+
         return view('bots.edit', compact('bot'));
     }
 
@@ -106,6 +109,21 @@ class BotController extends Controller
     public function update(StoreBotRequest $request, Bot $bot)
     {
         $data = $request->validated();
+
+        $table_names = $this->verify_db_and_tables($data);
+
+        if (is_string($table_names)) {
+            $message = $table_names;
+
+            return back()->withInput($data)->with('alert', [
+                'message' => "Conexión fallida: $message",
+                'type' => 'danger'
+            ]);
+        }
+
+        $data['table_names'] = json_encode($table_names);
+
+        $data['password'] = Hash::make($data['password']);
 
         $bot->update($data);
 
@@ -143,10 +161,10 @@ class BotController extends Controller
      *      'message' => string
      * ]
      */
-    private function connectDB($ip, $username, $password, $db_name)
+    private function connect_db($ip, $username, $password, $db_name)
     {
         try {
-            $conn = new PDO(
+            $this->conn = new PDO(
                 "mysql:host=$ip;dbname=$db_name",
                 $username,
                 $password,
@@ -160,19 +178,71 @@ class BotController extends Controller
                 "success" => true,
                 "message" => "Conexión exitosa"
             ];
-
-            // $result = $conn->query("SELECT * FROM test");
-
-            // $result->setFetchMode(PDO::FETCH_ASSOC);
-
-            // foreach ($result as $r) {
-            //     echo print_r($r);
-            // }
         } catch (PDOException $e) {
             return [
                 "success" => false,
                 "message" => $e->getMessage()
             ];
         }
+    }
+
+    /**
+     * Check if tables exists in previous connected database
+     *
+     * @param array<string> $table_names
+     * @return array[
+     *      'success' => bool,
+     *      'message' => string
+     * ]
+     */
+    private function check_tables($table_names)
+    {
+        try {
+            foreach ($table_names as $table_name) {
+                $result = $this->conn->query("SELECT * FROM $table_name");
+
+                $result->setFetchMode(PDO::FETCH_ASSOC);
+            }
+
+            return [
+                "success" => true,
+                "message" => "Tablas correctas"
+            ];
+        } catch (PDOException $e) {
+            return [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Check database and tables information
+     *
+     * @param array $data
+     * @return string|array
+     */
+    private function verify_db_and_tables($data)
+    {
+        $status_conn = $this->connect_db(
+            $data['ip'],
+            $data['username'],
+            $data['password'],
+            $data['db_name']
+        );
+
+        if (!$status_conn['success']) {
+            return $status_conn['message'];
+        }
+
+        $table_names = array_filter(preg_split('/[\ \n\,]+/', $data['table_names']));
+
+        $status_tables = $this->check_tables($table_names);
+
+        if (!$status_tables['success']) {
+            return $status_tables['message'];
+        }
+
+        return $table_names;
     }
 }

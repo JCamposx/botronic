@@ -23,6 +23,7 @@ class BotSeeder extends Seeder
             DB::table('bots')->insert([
                 'name' => "Bot #$i",
                 'description' => "Descripcion para el bot #$i",
+                'greeting' => "Hola, soy el bot #$i y estoy acá para ayudarte!",
                 'ip' => "127.0.0.1",
                 'username' => "root",
                 'password' => Hash::make('password'),

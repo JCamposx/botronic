@@ -20,16 +20,14 @@
           <div class="col-md-4 mb-3">
             <div class="card text-center">
               <div class="card-body">
-                <a class="text-decoration-none text-white"
-                  href="{{ route('bots.show', $bot->id) }}">
-                  <h3 class="card-title text-capitalize">
-                    {{ $bot->name }}
-                  </h3>
-                </a>
+                <h3 class="card-title text-capitalize">
+                  {{ $bot->name }}
+                </h3>
 
                 <p>{{ $bot->description }}</p>
 
-                <a href="#" class="btn btn-primary mb-2">Probar</a>
+                <a href="{{ route('bots.show', $bot->id) }}"
+                  class="btn btn-primary mb-2">Probar</a>
 
                 <a href="{{ route('bots.edit', $bot->id) }}"
                   class="btn btn-secondary mb-2">Editar</a>

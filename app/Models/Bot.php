@@ -17,10 +17,12 @@ class Bot extends Model
     protected $fillable = [
         'name',
         'description',
+        'greeting',
         'ip',
         'username',
         'password',
         'db_name',
+        'table_names',
     ];
 
     public function user()

@@ -20,12 +20,11 @@
       <div class="row justify-content-center">
         <div class="col-md-8">
 
-          {{-- Datos del bot --}}
+          {{-- Información del bot --}}
           <div class="card mb-3">
-            <div class="card-header">Datos del bot</div>
+            <div class="card-header">Información del bot</div>
 
             <div class="card-body">
-
               <div class="row mb-3">
                 <label for="name"
                   class="col-md-4 col-form-label text-md-end">Nombre del
@@ -62,12 +61,30 @@
                   @enderror
                 </div>
               </div>
+
+              <div class="row mb-3">
+                <label for="greeting"
+                  class="col-md-4 col-form-label text-md-end">Saludo</label>
+
+                <div class="col-md-6">
+                  <input id="greeting" type="text"
+                    class="form-control @error('greeting') is-invalid @enderror"
+                    name="greeting" value="{{ old('greeting') }}"
+                    autocomplete="greeting" autofocus>
+
+                  @error('greeting')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
             </div>
           </div>
 
-          {{-- Datos de la base de datos a conectarse --}}
+          {{-- Información de la base de datos a conectarse --}}
           <div class="card mb-3">
-            <div class="card-header">Datos de la base de datos</div>
+            <div class="card-header">Información de la base de datos</div>
 
             <div class="card-body">
               <div class="row mb-3">
@@ -135,6 +152,25 @@
                     autocomplete="db_name" autofocus>
 
                   @error('db_name')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="table_names"
+                  class="col-md-4 col-form-label text-md-end">Nombre de las
+                  tablas</label>
+
+                <div class="col-md-6">
+                  <input id="table_names" type="text"
+                    class="form-control @error('table_names') is-invalid @enderror"
+                    name="table_names" value="{{ old('table_names') }}"
+                    autocomplete="table_names" autofocus>
+
+                  @error('table_names')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>
