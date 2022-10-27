@@ -3,8 +3,9 @@
 @section('content')
   <script>
     var botmanWidget = {
-      aboutText: 'Write Something',
-      introMessage: "￼ Hi! I'm form Code Solution Stuff"
+      title: '{{ $bot->name }}',
+      aboutText: "Escriba algo",
+      introMessage: "{{ $bot->greeting }}"
     };
   </script>
 

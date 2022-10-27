@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::resource('profile', ProfileController::class)
         ->except(['create', 'store', 'show', 'edit', 'destroy']);
-    });
+});
 
 Route::middleware('auth')->resource('bots', BotController::class);
 

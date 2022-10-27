@@ -63,6 +63,24 @@
                   @enderror
                 </div>
               </div>
+
+              <div class="row mb-3">
+                <label for="greeting"
+                  class="col-md-4 col-form-label text-md-end">Saludo</label>
+
+                <div class="col-md-6">
+                  <input id="greeting" type="text"
+                    class="form-control @error('greeting') is-invalid @enderror"
+                    name="greeting" value="{{ old('greeting') ?? $bot->greeting }}"
+                    autocomplete="greeting" autofocus>
+
+                  @error('greeting')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
             </div>
           </div>
 
