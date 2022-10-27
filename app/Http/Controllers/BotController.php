@@ -88,19 +88,26 @@ class BotController extends Controller
      */
     public function edit(Bot $bot)
     {
-        //
+        return view('bots.edit', compact('bot'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreBotRequest  $request
      * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bot $bot)
+    public function update(StoreBotRequest $request, Bot $bot)
     {
-        //
+        $data = $request->validated();
+
+        $bot->update($data);
+
+        return redirect()->route('home')->with('alert', [
+            'message' => "Datos actualizados del bot \"$bot->name\"",
+            'type' => 'info'
+        ]);
     }
 
     /**
