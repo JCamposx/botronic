@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class BotSeeder extends Seeder
 {
@@ -26,7 +26,7 @@ class BotSeeder extends Seeder
                 'greeting' => "Hola, soy el bot #$i y estoy acá para ayudarte!",
                 'ip' => "127.0.0.1",
                 'username' => "root",
-                'password' => Hash::make('password'),
+                'password' => Crypt::encryptString('password'),
                 'db_name' => "test_botronic",
                 'user_id' => 2,
                 'created_at' => $date,

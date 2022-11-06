@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DBConnection\DBConnection;
 use App\Http\Requests\StoreBotRequest;
 use App\Models\Bot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use LDAP\Result;
 use PDO;
 use PDOException;
 
@@ -65,7 +67,7 @@ class BotController extends Controller
 
         $data['table_names'] = json_encode($table_names);
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Crypt::encryptString($data['password']);
 
         $bot = Auth::user()->bots()->create($data);
 
@@ -83,6 +85,14 @@ class BotController extends Controller
      */
     public function show(Bot $bot)
     {
+        $user = Auth::user();
+
+        $user->update(['selected_bot' => $bot->id]);
+
+        $bot_id = Auth::user()->selected_bot;
+
+        $bot = Bot::find($bot_id);
+
         return view('bots.show', compact('bot'));
     }
 
@@ -123,7 +133,7 @@ class BotController extends Controller
 
         $data['table_names'] = json_encode($table_names);
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Crypt::encryptString($data['password']);
 
         $bot->update($data);
 

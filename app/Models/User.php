@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'allowed_bots',
-        'created_bots'
+        'created_bots',
+        'selected_bot'
     ];
 
     /**

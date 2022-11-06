@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('allowed_bots')->default(1);
             $table->integer('created_bots')->default(0);
+            $table->integer('selected_bot')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
