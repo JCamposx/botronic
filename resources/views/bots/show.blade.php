@@ -5,7 +5,7 @@
     var botmanWidget = {
       title: '{{ $bot->name }}',
       aboutText: "Escriba algo",
-      introMessage: "{{ $bot->greeting }}"
+      introMessage: "{{ $bot->greeting }}<br><br>Dime algo para empezar la conversación!"
     };
   </script>
 

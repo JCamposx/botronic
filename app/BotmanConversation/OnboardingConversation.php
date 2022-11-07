@@ -14,9 +14,9 @@ class OnboardingConversation extends Conversation
     private function askName()
     {
         $this->ask('Hola! Cómo deseas que te llame?', function (Answer $answer) {
-            $name = ucwords(strtolower($answer->getText()));
+            $this->name = ucwords(strtolower($answer->getText()));
 
-            $this->say("Encantado de hablar contigo, $name");
+            $this->say("Encantado de hablar contigo, $this->name");
 
             $this->askTable();
         });
@@ -53,23 +53,72 @@ class OnboardingConversation extends Conversation
      */
     private function askProduct($table)
     {
-        $result = DBTables::getProducts($table);
+        $this->result = DBTables::getProducts($table);
 
         $this->say('Tenemos los siguientes resultados');
 
-        foreach ($result as $key => $row) {
+        foreach ($this->result as $key => $row) {
             $message = '';
             $position = '[' . $key + 1 . ']';
             $message .= $position;
 
+            $c = 0;
             foreach ($row as $field => $value) {
                 $message .= '<br>';
                 $message .= $field .= ': ';
                 $message .= $value;
+
+                if ($c == 1) break;
+
+                $c += 1;
             }
 
             $this->say($message);
         }
+
+        $this->ask('Elija uno, por favor.', function (Answer $answer) {
+            $value = $answer->getText();
+            $this->showSpecificProduct($this->result[$value - 1]);
+        });
+    }
+
+    /**
+     * Show details of specific product.
+     *
+     * @param array $row
+     */
+    private function showSpecificProduct($row)
+    {
+        $message = strtoupper(array_values($row)[0]);
+        array_shift($row);
+
+        foreach ($row as $field => $value) {
+            $message .= '<br><br>';
+            $message .= $field .= ': ';
+            $message .= $value;
+        }
+
+        $this->say('Acá está el resultado detallado de su elección.');
+        $this->say($message);
+
+        $this->continue();
+    }
+
+    /**
+     * Check whether or not no continue with the conversation.
+     */
+    private function continue()
+    {
+        $message = 'La conversación ha terminado. Para reanudarla, diga "HOLA".';
+
+        $this->ask($message, function(Answer $answer){
+            if (strtolower($answer->getText()) !== "hola") {
+                $this->continue();
+            } else {
+                $this->say("Bueno $this->name, empecemos de nuevo!");
+                $this->askTable();
+            }
+        });
     }
 
     /**

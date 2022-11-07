@@ -13,12 +13,12 @@ class BotmanController extends Controller
      */
     public function handle()
     {
-        $this->botman = BotManFactory::create([], new LaravelCache());
+        $botman = BotManFactory::create([], new LaravelCache());
 
-        $this->botman->hears("{message}", function ($bot, $message) {
+        $botman->hears("{message}", function ($bot, $message) {
             $bot->StartConversation(new OnboardingConversation);
         });
 
-        $this->botman->listen();
+        $botman->listen();
     }
 }
