@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DBConnection\DBConnection;
 use App\Http\Requests\StoreBotRequest;
 use App\Models\Bot;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use LDAP\Result;
 use PDO;
 use PDOException;
 
@@ -87,9 +84,9 @@ class BotController extends Controller
     {
         $user = Auth::user();
 
-        $user->update(['selected_bot' => $bot->id]);
-
         $bot_id = Auth::user()->selected_bot;
+
+        $user->update(['selected_bot' => $bot->id]);
 
         $bot = Bot::find($bot_id);
 

@@ -27,6 +27,11 @@ class DBConnection
         );
     }
 
+    /**
+     * Singleton, database connection.
+     *
+     * @return PDO
+     */
     public static function getInstance()
     {
         if (!self::$instance) {
