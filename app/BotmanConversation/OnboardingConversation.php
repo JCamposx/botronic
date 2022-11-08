@@ -31,9 +31,8 @@ class OnboardingConversation extends Conversation
 
         $message = '';
         foreach ($this->tables as $key => $table) {
-            $eol = '<br>';
-            $position = '[' . $key + 1 . '] ';
-            $message .= $eol .= $position .= $table;
+            $option = '[' . $key + 1 . '] ';
+            $message .= '<br>' . $option . $table;
         }
 
         $question = 'Te presentamos los productos que tenemos disponibles. ' .
@@ -58,18 +57,15 @@ class OnboardingConversation extends Conversation
         $this->say('Tenemos los siguientes resultados');
 
         foreach ($this->result as $key => $row) {
-            $message = '';
-            $position = '[' . $key + 1 . ']';
-            $message .= $position;
+            $message = '[' . $key + 1 . ']';
 
             $c = 0;
             foreach ($row as $field => $value) {
-                $message .= '<br>';
-                $message .= $field .= ': ';
-                $message .= $value;
+                if ($field === 'id') continue;
+
+                $message .= '<br>' . ucfirst($field) . ': ' . ucfirst($value);
 
                 if ($c == 1) break;
-
                 $c += 1;
             }
 
@@ -89,31 +85,34 @@ class OnboardingConversation extends Conversation
      */
     private function showSpecificProduct($row)
     {
-        $message = strtoupper(array_values($row)[0]);
-        array_shift($row);
+        $message = '';
 
         foreach ($row as $field => $value) {
-            $message .= '<br><br>';
-            $message .= $field .= ': ';
-            $message .= $value;
+            if ($field === 'id') continue;
+
+            if ($field === 'picture') {
+                $message .= '<img src=' . "$value" . ' width=250>';
+                continue;
+            }
+
+            $message .= '' . ucfirst($field) . ': ' . ucfirst($value) . '<br>';
         }
 
         $this->say('Acá está el resultado detallado de su elección.');
         $this->say($message);
-
-        $this->continue();
+        $this->askContinue();
     }
 
     /**
-     * Check whether or not no continue with the conversation.
+     * Ask user whether or not no continue with the conversation.
      */
-    private function continue()
+    private function askContinue()
     {
         $message = 'La conversación ha terminado. Para reanudarla, diga "HOLA".';
 
-        $this->ask($message, function(Answer $answer){
+        $this->ask($message, function (Answer $answer) {
             if (strtolower($answer->getText()) !== "hola") {
-                $this->continue();
+                $this->askContinue();
             } else {
                 $this->say("Bueno $this->name, empecemos de nuevo!");
                 $this->askTable();

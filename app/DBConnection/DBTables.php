@@ -41,12 +41,7 @@ class DBTables
         $rows = self::$conn->query($query, PDO::FETCH_ASSOC);
 
         $result = [];
-        foreach ($rows as $row) {
-            array_shift($row);
-            array_pop($row);
-            array_pop($row);
-            array_push($result, $row);
-        }
+        foreach ($rows as $row) array_push($result, $row);
 
         return $result;
     }
