@@ -18,30 +18,43 @@ class OnboardingConversation extends Conversation
 
             $this->say("Encantado de hablar contigo, $this->name");
 
-            $this->askTable();
+            $this->askTable(true);
         });
     }
 
     /**
      * Ask user to select a table.
+     *
+     * @param bool $show_tables
      */
-    private function askTable()
+    private function askTable($show_tables)
     {
-        $this->tables = DBTables::getTables();
+        $question = '';
 
-        $message = '';
-        foreach ($this->tables as $key => $table) {
-            $option = '[' . $key + 1 . '] ';
-            $message .= '<br>' . $option . $table;
+        if ($show_tables) {
+            $this->tables = DBTables::getTables();
+
+            $message = '';
+
+            foreach ($this->tables as $key => $table) {
+                $option = '[' . $key + 1 . '] ';
+                $message .= '<br>' . $option . $table;
+            }
+
+            $question = 'Te presentamos los productos que tenemos disponibles. ' .
+                "Por favor, elija uno. $message ";
+        } else {
+            $question = 'Opción no válida. Ingrese otro valor.';
         }
-
-        $question = 'Te presentamos los productos que tenemos disponibles. ' .
-            "Por favor, elija uno. $message ";
 
         $this->ask($question, function (Answer $answer) {
             $selected_table = $answer->getText();
 
-            $this->askProduct($this->tables[$selected_table - 1]);
+            if ($this->checkUserInput($selected_table, count($this->tables))) {
+                $this->askProduct($this->tables[$selected_table - 1], true);
+            } else {
+                $this->askTable(false);
+            }
         });
     }
 
@@ -49,33 +62,70 @@ class OnboardingConversation extends Conversation
      * Ask user to select a product from an specific table.
      *
      * @param App/DBConnection/DBTables $table
+     * @param bool $show_products
      */
-    private function askProduct($table)
+    private function askProduct($table, $show_products)
     {
-        $this->result = DBTables::getProducts($table);
+        $this->table = $table;
+        $question = '';
 
-        $this->say('Tenemos los siguientes resultados');
+        if ($show_products) {
+            $this->result = DBTables::getProducts($this->table);
 
-        foreach ($this->result as $key => $row) {
-            $message = '[' . $key + 1 . ']';
+            $this->say('Tenemos los siguientes resultados');
 
-            $c = 0;
-            foreach ($row as $field => $value) {
-                if ($field === 'id') continue;
+            foreach ($this->result as $key => $row) {
+                $message = '[' . $key + 1 . ']';
 
-                $message .= '<br>' . ucfirst($field) . ': ' . ucfirst($value);
+                $c = 0;
+                foreach ($row as $field => $value) {
+                    if ($field === 'id') continue;
 
-                if ($c == 1) break;
-                $c += 1;
+                    $message .= '<br>' . ucfirst($field) . ': ' . ucfirst($value);
+
+                    if ($c == 1) break;
+                    $c += 1;
+                }
+
+                $this->say($message);
             }
 
-            $this->say($message);
+            $question = 'Elija uno, por favor.';
+        } else {
+            $question = 'Opción no válida. Ingrese otro valor.';
         }
 
-        $this->ask('Elija uno, por favor.', function (Answer $answer) {
+        $this->ask($question, function (Answer $answer) {
             $value = $answer->getText();
-            $this->showSpecificProduct($this->result[$value - 1]);
+
+            if ($this->checkUserInput($value, count($this->result))) {
+                $this->showSpecificProduct($this->result[$value - 1]);
+            } else {
+                $this->askProduct($this->table, false);
+            }
+
         });
+    }
+
+    /**
+     * Verify that user input follows some criteria.
+     *
+     * @param string $input
+     * @param int $lenght
+     * @return bool
+     */
+    private function checkUserInput($input, $length)
+    {
+        // Input is not integer
+        if (!ctype_digit($input)) return false;
+
+        // Input is less than 0
+        if (intval($input) <= 0) return false;
+
+        // Input is bigger than table length
+        if (intval($input) > $length) return false;
+
+        return true;
     }
 
     /**
@@ -115,7 +165,7 @@ class OnboardingConversation extends Conversation
                 $this->askContinue();
             } else {
                 $this->say("Bueno $this->name, empecemos de nuevo!");
-                $this->askTable();
+                $this->askTable(true);
             }
         });
     }
