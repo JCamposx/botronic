@@ -82,13 +82,7 @@ class BotController extends Controller
      */
     public function show(Bot $bot)
     {
-        $user = Auth::user();
-
-        $bot_id = Auth::user()->selected_bot;
-
-        $user->update(['selected_bot' => $bot->id]);
-
-        $bot = Bot::find($bot_id);
+        Auth::user()->update(['selected_bot' => $bot->id]);
 
         return view('bots.show', compact('bot'));
     }
