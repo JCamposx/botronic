@@ -114,7 +114,7 @@ class OnboardingConversation extends Conversation
      * @param int $lenght
      * @return bool
      */
-    private function checkUserInput($input, $length)
+    public function checkUserInput($input, $length)
     {
         // Input is not integer
         if (!ctype_digit($input)) return false;
