@@ -82,6 +82,8 @@ class BotController extends Controller
      */
     public function show(Bot $bot)
     {
+        $this->authorize('view', $bot);
+
         Auth::user()->update(['selected_bot' => $bot->id]);
 
         return view('bots.show', compact('bot'));
@@ -95,6 +97,8 @@ class BotController extends Controller
      */
     public function edit(Bot $bot)
     {
+        $this->authorize('update', $bot);
+
         $bot['table_names'] = implode(", ", json_decode($bot['table_names']));
 
         return view('bots.edit', compact('bot'));
@@ -109,6 +113,8 @@ class BotController extends Controller
      */
     public function update(StoreBotRequest $request, Bot $bot)
     {
+        $this->authorize('update', $bot);
+
         $data = $request->validated();
 
         $table_names = $this->verify_db_and_tables($data);
@@ -142,6 +148,8 @@ class BotController extends Controller
      */
     public function destroy(Bot $bot)
     {
+        $this->authorize('delete', $bot);
+
         $bot->delete();
 
         return back()->with('alert', [

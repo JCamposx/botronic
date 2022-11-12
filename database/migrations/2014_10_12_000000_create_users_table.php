@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('type')->default(0);
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('allowed_bots')->default(1);
             $table->integer('created_bots')->default(0);
