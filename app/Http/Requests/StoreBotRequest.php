@@ -40,10 +40,11 @@ class StoreBotRequest extends FormRequest
             'description' => 'required',
             'greeting' => 'required',
             'ip' => 'required|ipv4',
-            'username' => 'required',
+            'username' => 'required|regex:/^[a-zA-Z]+$/',
             'password' => 'required',
-            'db_name' => 'required',
-            'table_names' => 'required',
+            'db_name' => 'required|regex:/^[a-zA-Z_]+$/',
+            'table_names' => 'array',
+            'table_names.*' => 'required|regex:/^[a-zA-Z_]+$/',
         ];
     }
 }

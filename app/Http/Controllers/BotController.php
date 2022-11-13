@@ -51,10 +51,10 @@ class BotController extends Controller
     {
         $data = $request->validated();
 
-        $table_names = $this->verify_db_and_tables($data);
+        $result = $this->verify_db_and_tables($data);
 
-        if (is_string($table_names)) {
-            $message = $table_names;
+        if (!$result['success']) {
+            $message = $result['message'];
 
             return back()->withInput($data)->with('alert', [
                 'message' => "Conexión fallida: $message",
@@ -62,7 +62,7 @@ class BotController extends Controller
             ]);
         }
 
-        $data['table_names'] = json_encode($table_names);
+        $data['table_names'] = json_encode($data['table_names']);
 
         $data['password'] = Crypt::encryptString($data['password']);
 
@@ -99,8 +99,6 @@ class BotController extends Controller
     {
         $this->authorize('update', $bot);
 
-        $bot['table_names'] = implode(", ", json_decode($bot['table_names']));
-
         return view('bots.edit', compact('bot'));
     }
 
@@ -117,18 +115,16 @@ class BotController extends Controller
 
         $data = $request->validated();
 
-        $table_names = $this->verify_db_and_tables($data);
+        $result = $this->verify_db_and_tables($data);
 
-        if (is_string($table_names)) {
-            $message = $table_names;
+        if (!$result['success']) {
+            $message = $result['message'];
 
             return back()->withInput($data)->with('alert', [
                 'message' => "Conexión fallida: $message",
                 'type' => 'danger'
             ]);
         }
-
-        $data['table_names'] = json_encode($table_names);
 
         $data['password'] = Crypt::encryptString($data['password']);
 
@@ -241,17 +237,11 @@ class BotController extends Controller
         );
 
         if (!$status_conn['success']) {
-            return $status_conn['message'];
+            return $status_conn;
         }
 
-        $table_names = array_filter(preg_split('/[\ \n\,]+/', $data['table_names']));
+        $status_tables = $this->check_tables($data['table_names']);
 
-        $status_tables = $this->check_tables($table_names);
-
-        if (!$status_tables['success']) {
-            return $status_tables['message'];
-        }
-
-        return $table_names;
+        return $status_tables;
     }
 }

@@ -39,7 +39,7 @@ class BotControllerTest extends TestCase
             'ip' => $bot->ip,
             'username' => $bot->username,
             'db_name' => $bot->db_name,
-            'table_names' => json_encode(array_filter(preg_split('/[\ \n\,]+/', $bot->table_names))),
+            'table_names' => json_encode($bot->table_names),
             'user_id' => $user->id,
         ]);
     }
@@ -75,9 +75,7 @@ class BotControllerTest extends TestCase
 
         $bot = Bot::factory()->createOne([
             'user_id' => $owner->id,
-            'table_names' => json_encode(
-                array_filter(preg_split('/[\ \n\,]+/', "TVs, Laptops, Monitors"))
-            ),
+            'table_names' => json_encode("['TVs','Laptops','Monitors']"),
         ]);
 
         $response = $this

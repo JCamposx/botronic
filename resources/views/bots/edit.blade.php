@@ -163,25 +163,21 @@
                 </div>
               </div>
 
-              <div class="row mb-3">
-                <label for="table_names"
-                  class="col-md-4 col-form-label text-md-end">Nombre de las
-                  tablas</label>
-
-                <div class="col-md-6">
-                  <input id="table_names" type="text"
-                    class="form-control @error('table_names') is-invalid @enderror"
-                    name="table_names"
-                    value="{{ old('table_names') ?? $bot->table_names }}"
-                    autocomplete="table_names" autofocus>
-
-                  @error('table_names')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
+              <div class="form-group">
+                <table-names
+                @if (old('table_names') === null)
+                  :table_names="{{ $bot->table_names }}"/>
+                @else
+                  :table_names="{{ "['".implode("','", old('table_names'))."']" }}"/>
+                @endif
               </div>
+              @error('table_names.*')
+                <span class="text-danger">
+                  <strong>
+                    {{ str_replace('table_names.', '', $message) }}
+                  </strong>
+                </span>
+              @enderror
             </div>
           </div>
 

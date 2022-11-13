@@ -26,7 +26,7 @@ class BotFactory extends Factory
             'username' => 'root',
             'password' => 'password',
             'db_name' => 'test_botronic',
-            'table_names' => 'TVs, Laptops, Monitors',
+            'table_names' => ["TVs", "Laptops", "Monitors"],
         ];
     }
 }
