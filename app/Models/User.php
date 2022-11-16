@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function bots() {
         return $this->hasMany(Bot::class);
     }
+
+    public function complaints() {
+        return $this->hasMany(Complaint::class);
+    }
 }
