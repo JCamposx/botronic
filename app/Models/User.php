@@ -45,11 +45,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bots() {
+    public function bots()
+    {
         return $this->hasMany(Bot::class);
     }
 
-    public function complaints() {
+    public function complaints()
+    {
         return $this->hasMany(Complaint::class);
+    }
+
+    public function userAnswers()
+    {
+        return $this->hasMany(UserAnswer::class);
     }
 }
