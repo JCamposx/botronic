@@ -36,6 +36,12 @@
           @endif
         @else
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('complaints.create') }}">
+              Nuevo reclamo
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
           </li>
 
@@ -53,6 +59,11 @@
             <div class="dropdown-menu dropdown-menu-end"
               aria-labelledby="navbarDropdown">
               @if (Auth::user()->type === 1)
+                <a class="dropdown-item" href="{{ route('complaints.index') }}"
+                  onclick={{ Route::is('complaints.index') ? 'event.preventDefault();' : '' }}>
+                  Ver reclamos
+                </a>
+
                 <a class="dropdown-item" href="{{ route('users.index') }}"
                   onclick={{ Route::is('users.index') ? 'event.preventDefault();' : '' }}>
                   Ver usuarios

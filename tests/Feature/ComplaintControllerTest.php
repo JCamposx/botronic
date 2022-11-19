@@ -147,10 +147,10 @@ class ComplaintControllerTest extends TestCase
         ]);
 
         $response = $this
-            ->actingAs($admin)
-            ->delete(route('complaints.destroy', $complaint->id));
+        ->actingAs($admin)
+        ->delete(route('complaints.destroy', $complaint->id));
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('complaints.index'));
 
         $this->assertDatabaseCount('complaints', 0);
     }

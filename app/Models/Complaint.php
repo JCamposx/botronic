@@ -10,7 +10,7 @@ class Complaint extends Model
     use HasFactory;
 
     /**
-     * The attributes that are assignable for a Bot.
+     * The attributes that are assignable for a Complaint.
      *
     * @var array<int, string>
      */

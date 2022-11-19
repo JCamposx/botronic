@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComplaintRequest;
 use App\Models\Complaint;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ComplaintController extends Controller
@@ -15,9 +16,9 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $complaints = Complaint::all();
+        $complaints = Complaint::latest()->paginate(15);
 
-        return response()->json($complaints);
+        return view('complaints.index', compact('complaints'));
     }
 
     /**
@@ -40,9 +41,15 @@ class ComplaintController extends Controller
     {
         $data = $request->validated();
 
+        $data['title'] = ucfirst(strtolower($data['title']));
+        $data['message'] = ucfirst(strtolower($data['message']));
+
         Auth::user()->complaints()->create($data);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('alert', [
+            'message' => 'Reclamo creado correctamente',
+            'type' => 'success'
+        ]);
     }
 
     /**
@@ -53,7 +60,11 @@ class ComplaintController extends Controller
      */
     public function show(Complaint $complaint)
     {
-        return view('complaints.show', compact('complaint'));
+        $this->authorize('view', $complaint);
+
+        $user = User::find($complaint->user_id);
+
+        return view('complaints.show', compact('complaint', 'user'));
     }
 
     /**
@@ -64,8 +75,13 @@ class ComplaintController extends Controller
      */
     public function destroy(Complaint $complaint)
     {
+        $this->authorize('delete', $complaint);
+
         $complaint->delete();
 
-        return redirect()->route('home');
+        return redirect()->route('complaints.index')->with('alert', [
+            'message' => 'Reclamo eliminado correctamente',
+            'type' => 'danger'
+        ]);
     }
 }

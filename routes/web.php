@@ -42,11 +42,11 @@ Route::middleware('auth')->resource('bots', BotController::class);
 Route::match(['get', 'post'], 'botman', [BotmanController::class, "handle"]);
 
 Route::middleware('auth')->controller(ComplaintController::class)->group(function () {
-    Route::middleware('admin')
-        ->resource('complaints', ComplaintController::class)
-        ->except(['update', 'edit', 'create', 'store']);
-
     Route::get('complaints/create', 'create')->name('complaints.create');
 
     Route::post('complaints', 'store')->name('complaints.store');
 });
+
+Route::middleware(['auth', 'admin'])
+    ->resource('complaints', ComplaintController::class)
+    ->except(['update', 'edit', 'create', 'store']);
