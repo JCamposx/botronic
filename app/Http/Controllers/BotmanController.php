@@ -19,7 +19,7 @@ class BotmanController extends Controller
         $botman->typesAndWaits(1);
 
         $botman->hears("{message}", function ($bot, $message) {
-            DBUserAnswer::saveAnswer($message);
+            DBUserAnswer::storeAnswer($message);
 
             $bot->StartConversation(new OnboardingConversation);
         });

@@ -19,6 +19,9 @@ const app = createApp({});
 import BotForm from "./components/bot/TableNames.vue";
 app.component("table-names", BotForm);
 
+import UserDashboard from "./components/dashboard/UserBotDashboard.vue";
+app.component("user-bot-dashboard", UserDashboard);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

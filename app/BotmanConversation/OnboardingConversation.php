@@ -2,6 +2,7 @@
 
 namespace App\BotmanConversation;
 
+use App\DBConnection\DBTableAnswer;
 use App\DBConnection\DBTables;
 use App\DBConnection\DBUserAnswer;
 use BotMan\BotMan\Messages\Conversations\Conversation;
@@ -50,11 +51,12 @@ class OnboardingConversation extends Conversation
 
         $this->ask($question, function (Answer $answer) {
             $selected_table = $answer->getText();
+            DBTableAnswer::storeSelectedTable($this->tables[$selected_table - 1]);
 
             if ($this->checkUserInput($selected_table, count($this->tables))) {
                 $this->askProduct($this->tables[$selected_table - 1], true);
             } else {
-                DBUserAnswer::saveAnswer($answer);
+                DBUserAnswer::storeAnswer($answer);
                 $this->askTable(false);
             }
         });
@@ -103,7 +105,7 @@ class OnboardingConversation extends Conversation
             if ($this->checkUserInput($value, count($this->result))) {
                 $this->showSpecificProduct($this->result[$value - 1]);
             } else {
-                DBUserAnswer::saveAnswer($answer);
+                DBUserAnswer::storeAnswer($answer);
                 $this->askProduct($this->table, false);
             }
         });

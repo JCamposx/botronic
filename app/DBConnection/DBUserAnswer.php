@@ -7,7 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class DBUserAnswer
 {
-    public static function saveAnswer($message)
+    /**
+     * Store user messages wihthout a default answer.
+     *
+     * @param string $message
+     * @return void
+     */
+    public static function storeAnswer($message)
     {
         $message = strtolower($message);
 
@@ -16,13 +22,13 @@ class DBUserAnswer
         $answer = UserAnswer::where([
             'user_id' => $user->id,
             'message' => $message,
-            'bot_id' => $user->selected_bot
+            'bot_id' => $user->selected_bot,
         ])->first();
 
         if ($answer === null) {
             Auth::user()->userAnswers()->create([
                 'message' => $message,
-                'bot_id' => $user->selected_bot
+                'bot_id' => $user->selected_bot,
             ]);
         } else {
             $answer->update(['quantity' => $answer->quantity + 1]);
