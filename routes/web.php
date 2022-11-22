@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BotmanController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\CustomAnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,3 +51,11 @@ Route::middleware('auth')->controller(ComplaintController::class)->group(functio
 Route::middleware(['auth', 'admin'])
     ->resource('complaints', ComplaintController::class)
     ->except(['update', 'edit', 'create', 'store']);
+
+Route::middleware('auth')->controller(CustomAnswerController::class)->group(function () {
+    Route::get('bots/{bot}/customize', 'create')->name('bots.customize.create');
+    Route::post('bots/{bot}/customize', 'store')->name('bots.customize.store');
+    Route::get('bots/{bot}/customize/{customAnswer}/edit', 'edit')->name('bots.customize.edit');
+    Route::put('bots/{bot}/customize/{customAnswer}', 'update')->name('bots.customize.update');
+    Route::delete('bots/{bot}/customize/{customAnswer}', 'destroy')->name('bots.customize.destroy');
+});

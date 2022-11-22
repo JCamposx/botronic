@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TableAnswer::class);
     }
+
+    public function customAnswers()
+    {
+        return $this->hasMany(CustomAnswer::class);
+    }
 }

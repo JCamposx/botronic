@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DBConnection\DBTableAnswer;
 use App\Http\Requests\StoreBotRequest;
 use App\Models\Bot;
 use Illuminate\Support\Facades\Auth;
@@ -89,8 +88,9 @@ class BotController extends Controller
 
         $user_answers = Auth::user()
             ->userAnswers()
-            ->where('bot_id', Auth::user()->selected_bot)
-            ->orderByDesc('quantity')->get();
+            ->where('bot_id', $bot->id)
+            ->orderByDesc('quantity')
+            ->get();
 
         $messages = [];
         $quantities = [];
@@ -105,8 +105,9 @@ class BotController extends Controller
 
         $table_answers = Auth::user()
             ->tableAnswers()
-            ->where('bot_id', Auth::user()->selected_bot)
-            ->orderByDesc('quantity')->get();
+            ->where('bot_id', $bot->id)
+            ->orderByDesc('quantity')
+            ->get();
 
         $table_names = [];
         $quantities = [];
@@ -119,7 +120,12 @@ class BotController extends Controller
 
         $table_answers = [$table_names, $quantities];
 
-        return view('bots.show', compact('bot', 'user_answers', 'table_answers'));
+        $custom_answers = Auth::user()
+            ->customAnswers()
+            ->where('bot_id', $bot->id)
+            ->get();
+
+        return view('bots.show', compact('bot', 'user_answers', 'table_answers', 'custom_answers'));
     }
 
     /**

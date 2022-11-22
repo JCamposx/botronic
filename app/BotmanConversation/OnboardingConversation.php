@@ -2,6 +2,7 @@
 
 namespace App\BotmanConversation;
 
+use App\DBConnection\DBCustomAnswer;
 use App\DBConnection\DBTableAnswer;
 use App\DBConnection\DBTables;
 use App\DBConnection\DBUserAnswer;
@@ -50,10 +51,12 @@ class OnboardingConversation extends Conversation
         }
 
         $this->ask($question, function (Answer $answer) {
+            $this->customAnswer($answer);
+
             $selected_table = $answer->getText();
-            DBTableAnswer::storeSelectedTable($this->tables[$selected_table - 1]);
 
             if ($this->checkUserInput($selected_table, count($this->tables))) {
+                DBTableAnswer::storeSelectedTable($this->tables[$selected_table - 1]);
                 $this->askProduct($this->tables[$selected_table - 1], true);
             } else {
                 DBUserAnswer::storeAnswer($answer);
@@ -100,6 +103,8 @@ class OnboardingConversation extends Conversation
         }
 
         $this->ask($question, function (Answer $answer) {
+            $this->customAnswer($answer);
+
             $value = $answer->getText();
 
             if ($this->checkUserInput($value, count($this->result))) {
@@ -109,27 +114,6 @@ class OnboardingConversation extends Conversation
                 $this->askProduct($this->table, false);
             }
         });
-    }
-
-    /**
-     * Verify that user input follows some criteria.
-     *
-     * @param string $input
-     * @param int $lenght
-     * @return bool
-     */
-    public function checkUserInput($input, $length)
-    {
-        // Input is not integer
-        if (!ctype_digit($input)) return false;
-
-        // Input is less than 0
-        if (intval($input) <= 0) return false;
-
-        // Input is bigger than table length
-        if (intval($input) > $length) return false;
-
-        return true;
     }
 
     /**
@@ -165,6 +149,8 @@ class OnboardingConversation extends Conversation
         $message = 'La conversación ha terminado. Para reanudarla, diga "HOLA".';
 
         $this->ask($message, function (Answer $answer) {
+            $this->customAnswer($answer);
+
             if (strtolower($answer->getText()) !== "hola") {
                 $this->askContinue();
             } else {
@@ -175,10 +161,46 @@ class OnboardingConversation extends Conversation
     }
 
     /**
-     * Start conversation flow.
+     * Main function, start conversation flow.
      */
     public function run()
     {
         $this->askName();
+    }
+
+
+    /**
+     * Verify that user input follows some criteria.
+     *
+     * @param string $input
+     * @param int $lenght
+     * @return bool
+     */
+    public function checkUserInput($input, $length)
+    {
+        // Input is not integer
+        if (!ctype_digit($input)) return false;
+
+        // Input is less than 0
+        if (intval($input) <= 0) return false;
+
+        // Input is bigger than table length
+        if (intval($input) > $length) return false;
+
+        return true;
+    }
+
+    /**
+     * check whether or not there is a custom answer for a user input
+     *
+     * @param string $input
+     * @return void
+     */
+    private function customAnswer($input) {
+        $custom_answer = DBCustomAnswer::searchCustomAnswer($input);
+
+        if ($custom_answer !== null) {
+            $this->say($custom_answer['answer']);
+        }
     }
 }

@@ -8,11 +8,31 @@
       </div>
 
       <div class="col-md-2">
-        <a class="btn btn-primary" href="{{ route('bots.edit', $bot->id) }}">Editar</a>
+        <a class="btn btn-primary"
+          href="{{ route('bots.edit', $bot->id) }}">Editar</a>
       </div>
     </div>
 
+    @if (session('alert'))
+      <div
+        class="alert alert-{{ session('alert')['type'] }} alert-dismissible fade show"
+        role="alert">
+        {{ session('alert')['message'] }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"
+          aria-label="Close"></button>
+      </div>
+    @endif
+
     <div class="row justify-content-center">
+      @if (count($user_answers[0]) === 0 && count($table_answers[0]) === 0)
+        <div class="col-md-4">
+          <div class="card card-body text-center">
+            <p>{{ $bot->name }} aún no cuenta con estadísticas</p>
+            <p> Empiece a hablar con él!</p>
+          </div>
+        </div>
+      @endif
+
       @if (count($user_answers[0]) !== 0)
         <div class="col-md-6">
           <user-bot-dashboard
@@ -20,20 +40,81 @@
             :data="[{{ "'" . implode("','", $user_answers[1]) . "'" }}]"
             :title="'TOP 5 PALABRAS SIN RESPUESTA'" />
         </div>
+      @endif
 
+      @if (count($table_answers[0]) !== 0)
         <div class="col-md-6">
           <user-bot-dashboard
             :labels="[{{ "'" . implode("','", $table_answers[0]) . "'" }}]"
             :data="[{{ "'" . implode("','", $table_answers[1]) . "'" }}]"
             :title="'TOP 5 TABLAS MÁS CONSULTADAS'" />
         </div>
-      @else
-        <div class="col-md-4">
-          <div class="card card-body text-center">
-            <p>{{ $bot->name }} aún no cuenta con estadísticas</p>
-            <p> Empiece a hablar con él!</p>
+      @endif
+    </div>
+
+    <div class="mt-4">
+      <div class="row">
+        <div class="col-md-10">
+          <h3>Respuestas personalizadas</h3>
+        </div>
+
+        <div class="col-md-2">
+          <a class="btn btn-primary"
+            href="{{ route('bots.customize.create', $bot->id) }}">Nuevo</a>
+        </div>
+      </div>
+
+      @if (count($custom_answers) === 0)
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="card card-body text-center">
+              <p>{{ $bot->name }} aún no tiene respuestas personalizadas</p>
+              <a href="#">Cree una!</a>
+            </div>
           </div>
         </div>
+      @else
+        <table class="table table-hover table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Pregunta</th>
+              <th scope="col">Respuesta</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @foreach ($custom_answers as $custom_answer)
+              <tr>
+                <td>{{ $custom_answer->question }}</td>
+
+                <td>{{ $custom_answer->answer }}</td>
+
+                <td>
+                  <div class="d-flex justify-content-end">
+                    <div class="me-2">
+                      <a class="btn btn-primary"
+                        href="{{ route('bots.customize.edit', [$bot->id, $custom_answer->id]) }}">
+                        Editar
+                      </a>
+                    </div>
+
+                    <div>
+                      <form method="POST"
+                        action="{{ route('bots.customize.destroy', [$bot->id, $custom_answer->id]) }}">
+                        @csrf
+                        @method('DELETE')
+
+                        <button class="btn btn-danger"
+                          type="submit">Borrar</button>
+                      </form>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
       @endif
     </div>
   </div>
