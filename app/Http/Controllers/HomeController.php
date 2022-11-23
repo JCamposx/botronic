@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\DBConnection\DBAdminDashboard;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -24,7 +24,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', [
+        $user = Auth::user();
+
+        // User is admin
+        if ($user->type === 1) {
+            $user_bots_allowed = DBAdminDashboard::getUserBotsAllowedInfo();
+            $user_bots_created = DBAdminDashboard::getUserBotsCreatedInfo();
+            $questions_without_answer = DBAdminDashboard::getUserQuestionToBotWithoutAnswerInfo();
+            $db_info = DBAdminDashboard::getDBInfo();
+
+            return view('home.admin', compact(
+                'user_bots_allowed',
+                'user_bots_created',
+                'questions_without_answer',
+                'db_info',
+            ));
+        }
+
+        // User is normal user
+        return view('home.user', [
             'bots' => Auth::user()->bots()->latest()->take(6)->get()
         ]);
     }

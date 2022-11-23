@@ -152,6 +152,7 @@ class OnboardingConversation extends Conversation
             $this->customAnswer($answer);
 
             if (strtolower($answer->getText()) !== "hola") {
+                DBUserAnswer::storeAnswer($answer);
                 $this->askContinue();
             } else {
                 $this->say("Bueno $this->name, empecemos de nuevo!");

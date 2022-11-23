@@ -35,7 +35,7 @@
 
       @if (count($user_answers[0]) !== 0)
         <div class="col-md-6">
-          <user-bot-dashboard
+          <pie-chart
             :labels="[{{ "'" . implode("','", $user_answers[0]) . "'" }}]"
             :data="[{{ "'" . implode("','", $user_answers[1]) . "'" }}]"
             :title="'TOP 5 PALABRAS SIN RESPUESTA'" />
@@ -44,7 +44,7 @@
 
       @if (count($table_answers[0]) !== 0)
         <div class="col-md-6">
-          <user-bot-dashboard
+          <pie-chart
             :labels="[{{ "'" . implode("','", $table_answers[0]) . "'" }}]"
             :data="[{{ "'" . implode("','", $table_answers[1]) . "'" }}]"
             :title="'TOP 5 TABLAS MÁS CONSULTADAS'" />

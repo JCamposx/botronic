@@ -16,44 +16,54 @@
       </div>
     @endif
 
-    <table class="table table-hover table-striped align-middle">
-      <thead>
-        <tr>
-          <th scope="col">Titulo</th>
-          <th scope="col">Mensaje</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
+    <div class="row justify-content-center">
+      @if (count($complaints) === 0)
+        <div class="col-md-4">
+          <div class="card card-body text-center">
+            <p>No hay reclamos</p>
+          </div>
+        </div>
+      @else
+        <table class="table table-hover table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Titulo</th>
+              <th scope="col">Mensaje</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
 
-      <tbody>
-        @foreach ($complaints as $complaint)
-          <tr>
-            <td>{{ $complaint->title }}</td>
+          <tbody>
+            @foreach ($complaints as $complaint)
+              <tr>
+                <td>{{ $complaint->title }}</td>
 
-            <td>{{ $complaint->message }}</td>
+                <td>{{ $complaint->message }}</td>
 
-            <td>
-              <div class="d-flex justify-content-end">
-                <div class="me-2">
-                  <a href="{{ route('complaints.show', $complaint->id) }}"
-                    class="btn btn-primary">Ver detalle</a>
-                </div>
+                <td>
+                  <div class="d-flex justify-content-end">
+                    <div class="me-2">
+                      <a href="{{ route('complaints.show', $complaint->id) }}"
+                        class="btn btn-primary">Ver detalle</a>
+                    </div>
 
-                <div>
-                  <form method="POST"
-                    action="{{ route('complaints.destroy', $complaint->id) }}">
-                    @csrf
-                    @method('DELETE')
+                    <div>
+                      <form method="POST"
+                        action="{{ route('complaints.destroy', $complaint->id) }}">
+                        @csrf
+                        @method('DELETE')
 
-                    <button class="btn btn-danger"
-                      type="submit">Eliminar</button>
-                  </form>
-                </div>
-              </div>
-            </td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
+                        <button class="btn btn-danger"
+                          type="submit">Eliminar</button>
+                      </form>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      @endif
+    </div>
   </div>
 @endsection

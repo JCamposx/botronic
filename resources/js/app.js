@@ -19,8 +19,11 @@ const app = createApp({});
 import BotForm from "./components/bot/TableNames.vue";
 app.component("table-names", BotForm);
 
-import UserDashboard from "./components/dashboard/UserBotDashboard.vue";
-app.component("user-bot-dashboard", UserDashboard);
+import PieChart from "./components/dashboard/PieChart.vue";
+app.component("pie-chart", PieChart);
+
+import BarChart from "./components/dashboard/BarChart.vue";
+app.component("bar-chart", BarChart);
 
 /**
  * The following block of code may be used to automatically register your

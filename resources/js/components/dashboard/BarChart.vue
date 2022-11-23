@@ -1,5 +1,5 @@
 <template>
-  <Pie
+  <Bar
     :chart-options="chartOptions"
     :chart-data="chartData"
     :chart-id="chartId"
@@ -13,25 +13,33 @@
 </template>
 
 <script>
-import { Pie } from "vue-chartjs";
+import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
-  ArcElement,
+  BarElement,
   CategoryScale,
+  LinearScale,
 } from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 export default {
-  name: "PieChart",
-  components: { Pie },
+  name: "BarChart",
+  components: { Bar },
   props: {
     chartId: {
       type: String,
-      default: "pie-chart",
+      default: "bar-chart",
     },
     datasetIdKey: {
       type: String,
@@ -43,7 +51,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 100,
+      default: 650,
     },
     cssClasses: {
       type: String,
@@ -83,18 +91,29 @@ export default {
               "#E5C07B",
               "#61AFEF",
               "#D55FDE",
+              "#D19A66",
+              "#2BBAC5",
+              "#ABB2BF",
+              "#5C6370",
+              "#e4e4e4",
             ],
           },
         ],
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         borderWidth: 1,
         plugins: {
           title: {
             display: true,
             text: this.title,
+            font: {
+              size: 15,
+            },
+          },
+          legend: {
+            display: false,
           },
         },
       },
