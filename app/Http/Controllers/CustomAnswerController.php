@@ -5,24 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomAnswerRequest;
 use App\Models\Bot;
 use App\Models\CustomAnswer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CustomAnswerController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Bot  $bot
      * @return \Illuminate\Http\Response
      */
     public function create(Bot $bot)
@@ -33,6 +23,7 @@ class CustomAnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \App\Models\Bot  $bot
      * @param  \Illuminate\Http\StoreCustomAnswer  $request
      * @return \Illuminate\Http\Response
      */
@@ -52,24 +43,16 @@ class CustomAnswerController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CustomAnswer  $customAnswer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CustomAnswer $customAnswer)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
+     * @param  \App\Models\Bot  $bot
      * @param  \App\Models\CustomAnswer  $customAnswer
      * @return \Illuminate\Http\Response
      */
     public function edit(Bot $bot, CustomAnswer $customAnswer)
     {
+        $this->authorize('update', $customAnswer);
+
         return view('bots.customize.edit', compact('bot', 'customAnswer'));
     }
 
@@ -77,11 +60,14 @@ class CustomAnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\StoreCustomAnswerRequest  $request
+     * @param  \App\Models\Bot  $bot
      * @param  \App\Models\CustomAnswer  $customAnswer
      * @return \Illuminate\Http\Response
      */
     public function update(StoreCustomAnswerRequest $request, Bot $bot, CustomAnswer $customAnswer)
     {
+        $this->authorize('update', $customAnswer);
+
         $data = $request->validated();
 
         $customAnswer->update($data);
@@ -95,11 +81,14 @@ class CustomAnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\Bot  $bot
      * @param  \App\Models\CustomAnswer  $customAnswer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Bot $bot, CustomAnswer $customAnswer)
     {
+        $this->authorize('delete', $customAnswer);
+
         $customAnswer->delete();
 
         return redirect()->route('bots.show', $bot->id)->with('alert', [
