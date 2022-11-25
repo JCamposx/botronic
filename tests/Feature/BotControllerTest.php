@@ -67,6 +67,31 @@ class BotControllerTest extends TestCase
     }
 
     /**
+     * Verify user cannot store more bots than allowed.
+     *
+     * @return void
+     */
+    public function test_user_cannot_exceed_allowed_bots()
+    {
+        $user = User::factory()->createOne([
+            'allowed_bots' => 1,
+            'created_bots' => 1,
+        ]);
+
+        $bot = Bot::factory()->makeOne([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('bots.store'), $bot->getAttributes());
+
+        $response->assertRedirect(session()->previousUrl());
+
+        $this->assertDatabaseCount('bots', 0);
+    }
+
+    /**
      * Verify bots can only be managed by their owner.
      */
     public function test_only_owner_can_update_or_delete_bots()

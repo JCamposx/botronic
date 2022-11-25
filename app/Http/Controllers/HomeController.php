@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         // User is normal user
         return view('home.user', [
-            'bots' => Auth::user()->bots()->latest()->take(6)->get()
+            'bots' => Auth::user()->bots()->latest()->take(9)->get()
         ]);
     }
 }

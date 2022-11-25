@@ -26,7 +26,7 @@ class BotController extends Controller
         $bots = Auth::user()
             ->bots()
             ->orderBy('name')
-            ->paginate(9);
+            ->paginate(10);
 
         return view('bots.index', compact('bots'));
     }
@@ -50,6 +50,17 @@ class BotController extends Controller
     public function store(StoreBotRequest $request)
     {
         $data = $request->validated();
+
+        $user = Auth::user();
+
+        if ($user['created_bots'] >= $user['allowed_bots']) {
+            return back()->withInput($data)->with('alert', [
+                'message' => "Haz alcanzado la cantidad máxima de bots permitidos",
+                'type' => 'danger'
+            ]);
+        }
+
+        $user->update(['created_bots' => $user['created_bots'] + 1]);
 
         $result = $this->verify_db_and_tables($data);
 

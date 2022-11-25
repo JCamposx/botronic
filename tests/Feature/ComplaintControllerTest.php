@@ -77,7 +77,7 @@ class ComplaintControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_only_admin_can_see_one_specific_complaints()
+    public function test_only_admin_can_see_one_specific_complaint()
     {
         // Acting as normal user
 

@@ -19,7 +19,7 @@
     <div class="row">
       <div class="row justify-content-center">
         @forelse ($bots as $bot)
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <div class="card text-center">
               <div class="card-body">
                 <h3 class="card-title text-capitalize">
@@ -28,7 +28,8 @@
 
                 <p>{{ $bot->description }}</p>
 
-                <a href="{{ route('bots.show', $bot->id) }}" class="btn btn-primary mb-2">Probar</a>
+                <a href="{{ route('bots.show', $bot->id) }}"
+                  class="btn btn-primary mb-2 me-2">Probar</a>
 
                 <a href="{{ route('bots.edit', $bot->id) }}"
                   class="btn btn-secondary mb-2">Editar</a>

@@ -28,7 +28,7 @@
                   <input id="created_bots" name="created_bots" type="hidden"
                     value="{{ $user->created_bots }}" autocomplete="created_bots">
 
-                  <input id="allowed_bots" name="allowed_bots" type="number"
+                  <input id="allowed_bots" name="allowed_bots" type="number" min="0"
                     class="form-control @error('allowed_bots') is-invalid @enderror"
                     value="{{ old('allowed_bots') ?? $user->allowed_bots }}"
                     autocomplete="allowed_bots">
