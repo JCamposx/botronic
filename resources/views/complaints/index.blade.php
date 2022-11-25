@@ -27,6 +27,7 @@
         <table class="table table-hover table-striped align-middle">
           <thead>
             <tr>
+              <th scope="col">Id</th>
               <th scope="col">Titulo</th>
               <th scope="col">Mensaje</th>
               <th scope="col"></th>
@@ -36,6 +37,8 @@
           <tbody>
             @foreach ($complaints as $complaint)
               <tr>
+                <td>{{ $complaint->id }}</td>
+
                 <td>{{ $complaint->title }}</td>
 
                 <td>{{ $complaint->message }}</td>

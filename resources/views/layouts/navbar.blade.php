@@ -35,11 +35,13 @@
             </li>
           @endif
         @else
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('complaints.create') }}">
-              Nuevo reclamo
-            </a>
-          </li>
+          @if (Auth::user()->type === 0)
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('complaints.create') }}">
+                Nuevo reclamo
+              </a>
+            </li>
+          @endif
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
