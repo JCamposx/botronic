@@ -46,6 +46,8 @@ class BotControllerTest extends TestCase
 
     /**
      * Verify user's input validation when creating a new bot.
+     *
+     * @return void
      */
     public function test_store_bot_validation()
     {
@@ -93,6 +95,8 @@ class BotControllerTest extends TestCase
 
     /**
      * Verify bots can only be managed by their owner.
+     *
+     * @return void
      */
     public function test_only_owner_can_update_or_delete_bots()
     {

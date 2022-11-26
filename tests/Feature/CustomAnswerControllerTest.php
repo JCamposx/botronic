@@ -52,6 +52,8 @@ class CustomAnswerControllerTest extends TestCase
 
     /**
      * Verify user's input validation when creating a new custom answer.
+     *
+     * @return void
      */
     public function test_store_custom_answer_validation()
     {
@@ -70,11 +72,11 @@ class CustomAnswerControllerTest extends TestCase
         ]);
 
         $response = $this
-        ->actingAs($user)
-        ->post(
-            route('bots.customize.store', $bot->id),
-            $custom_answer->getAttributes()
-        );
+            ->actingAs($user)
+            ->post(
+                route('bots.customize.store', $bot->id),
+                $custom_answer->getAttributes()
+            );
 
         $response->assertSessionHasErrors(['question', 'answer']);
 
@@ -83,6 +85,8 @@ class CustomAnswerControllerTest extends TestCase
 
     /**
      * Verify custom answers can only be managed by their owner.
+     *
+     * @return void
      */
     public function test_only_owner_can_manage_custom_answers()
     {
