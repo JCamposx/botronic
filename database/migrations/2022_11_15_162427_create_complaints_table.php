@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('message');
+            $table->boolean('status')->default(false);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

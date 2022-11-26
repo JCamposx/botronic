@@ -53,7 +53,7 @@ class ComplaintPolicy
      */
     public function update(User $user, Complaint $complaint)
     {
-        //
+        return $user->type === 1;
     }
 
     /**
@@ -65,7 +65,7 @@ class ComplaintPolicy
      */
     public function delete(User $user, Complaint $complaint)
     {
-        return $user->type === 1;
+        //
     }
 
     /**

@@ -16,7 +16,7 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $complaints = Complaint::latest()->paginate(15);
+        $complaints = Complaint::orderBy('status')->paginate(15);
 
         return view('complaints.index', compact('complaints'));
     }
@@ -68,20 +68,22 @@ class ComplaintController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the specified resource in storage.
      *
      * @param  \App\Models\Complaint  $complaint
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Complaint $complaint)
+    public function update(Complaint $complaint)
     {
-        $this->authorize('delete', $complaint);
+        $this->authorize('update', $complaint);
 
-        $complaint->delete();
+        $complaint->update([
+            'status' => ($complaint->status === 0) ? 1 : 0,
+        ]);
 
         return redirect()->route('complaints.index')->with('alert', [
-            'message' => 'Reclamo eliminado correctamente',
-            'type' => 'danger'
+            'message' => "Estado del reclado #$complaint->id actualizado correctamente.",
+            'type' => 'info'
         ]);
     }
 }

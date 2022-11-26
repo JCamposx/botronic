@@ -30,6 +30,7 @@
               <th scope="col">Id</th>
               <th scope="col">Titulo</th>
               <th scope="col">Mensaje</th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -39,9 +40,19 @@
               <tr>
                 <td>{{ $complaint->id }}</td>
 
-                <td>{{ $complaint->title }}</td>
+                <td>
+                  {{ strlen($complaint->title) <= 30
+                      ? $complaint->title
+                      : substr($complaint->title, 0, 30) . '...' }}
+                </td>
 
-                <td>{{ $complaint->message }}</td>
+                <td>
+                  {{ strlen($complaint->message) <= 180
+                      ? $complaint->message
+                      : substr($complaint->message, 0, 180) . '...' }}
+                </td>
+
+                <td>{{ $complaint->status ? 'Cerrado' : 'Abierto' }}</td>
 
                 <td>
                   <div class="d-flex justify-content-end">
@@ -52,12 +63,12 @@
 
                     <div>
                       <form method="POST"
-                        action="{{ route('complaints.destroy', $complaint->id) }}">
+                        action="{{ route('complaints.update', $complaint->id) }}">
                         @csrf
-                        @method('DELETE')
+                        @method('PUT')
 
-                        <button class="btn btn-danger"
-                          type="submit">Eliminar</button>
+                        <button class="btn btn-dark" type="submit">Cambiar
+                          estado</button>
                       </form>
                     </div>
                   </div>

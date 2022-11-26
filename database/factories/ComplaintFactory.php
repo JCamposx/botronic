@@ -19,6 +19,7 @@ class ComplaintFactory extends Factory
         return [
             'title' => fake()->text(10),
             'message' => fake()->text(200),
+            'status' => 0,
         ];
     }
 }

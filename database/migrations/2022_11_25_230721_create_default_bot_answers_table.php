@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('default_bot_answers', function (Blueprint $table) {
             $table->id();
-            $table->text('question')->unique();
+            $table->string('question', 500)->unique();
             $table->text('answer');
             $table->timestamps();
         });

@@ -37,7 +37,7 @@
         <pie-chart
           :labels="[{{ "'" . implode("','", $questions_without_answer[0]) . "'" }}]"
           :data="[{{ "'" . implode("','", $questions_without_answer[1]) . "'" }}]"
-          :title="'INPUTS DEL USUARIO SIN RESPUESTA'" />
+          :title="'PALABRAS INGRESADAS A LOS BOTS SIN RESPUESTA'" />
       </div>
 
       <div class="col-md-6">

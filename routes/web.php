@@ -51,7 +51,7 @@ Route::middleware('auth')->controller(ComplaintController::class)->group(functio
 
 Route::middleware(['auth', 'admin'])
     ->resource('complaints', ComplaintController::class)
-    ->except(['update', 'edit', 'create', 'store']);
+    ->except(['edit', 'create', 'store', 'destroy']);
 
 Route::middleware('auth')->controller(CustomAnswerController::class)->group(function () {
     Route::get('bots/{bot}/customize', 'create')->name('bots.customize.create');
@@ -62,4 +62,5 @@ Route::middleware('auth')->controller(CustomAnswerController::class)->group(func
 });
 
 Route::middleware(['auth', 'admin'])
-    ->resource('default-answers', DefaultBotAnswerController::class);
+    ->resource('default-answers', DefaultBotAnswerController::class)
+    ->except(['show']);

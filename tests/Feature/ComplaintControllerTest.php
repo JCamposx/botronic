@@ -109,11 +109,11 @@ class ComplaintControllerTest extends TestCase
     }
 
     /**
-     * Verify user only admin can delete complaints.
+     * Verify user only admin can update complaints status.
      *
      * @return void
      */
-    public function test_only_admin_can_delete_complaints()
+    public function test_only_admin_can_update_complaints()
     {
         // Acting as normal user
 
@@ -123,22 +123,14 @@ class ComplaintControllerTest extends TestCase
 
         $complaint = Complaint::factory()->createOne([
             'user_id' => $user->id,
+            'status' => 0,
         ]);
 
         $response = $this
             ->actingAs($user)
-            ->delete(route('complaints.destroy', $complaint->id));
+            ->put(route('complaints.update', $complaint->id));
 
         $response->assertNotFound();
-
-        $this->assertDatabaseCount('complaints', 1);
-
-        $this->assertDatabaseHas('complaints', [
-            'id' => $complaint->id,
-            'title' => $complaint->title,
-            'message' => $complaint->message,
-            'user_id' => $user->id,
-        ]);
 
         // Acting as admin user
 
@@ -147,11 +139,15 @@ class ComplaintControllerTest extends TestCase
         ]);
 
         $response = $this
-        ->actingAs($admin)
-        ->delete(route('complaints.destroy', $complaint->id));
+            ->actingAs($admin)
+            ->put(route('complaints.update', $complaint->id));
 
         $response->assertRedirect(route('complaints.index'));
 
-        $this->assertDatabaseCount('complaints', 0);
+        $this->assertDatabaseHas('complaints', [
+            'id' => $complaint->id,
+            'user_id' => $user->id,
+            'status' => 1,
+        ]);
     }
 }
