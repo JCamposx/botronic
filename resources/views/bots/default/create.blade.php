@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Nueva respuesta personalizada para {{ $bot->name }}</h3>
+    <h3>Nueva respuesta predeterminada</h3>
 
     @if (session('alert'))
       <div
@@ -14,7 +14,7 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ route('bots.customize.store', $bot->id) }}">
+    <form method="POST" action="{{ route('default-answers.store') }}">
       @csrf
 
       <div class="row justify-content-center mt-3">

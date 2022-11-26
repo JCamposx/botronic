@@ -55,7 +55,7 @@
                   <div class="d-flex justify-content-end">
                     <div class="me-2">
                       <a href="{{ route('users.edit', $user->id) }}"
-                        class="btn btn-primary">Edit</a>
+                        class="btn btn-primary">Editar</a>
                     </div>
 
                     <div>
@@ -65,7 +65,7 @@
                         @method('DELETE')
 
                         <button class="btn btn-danger"
-                          type="submit">Delete</button>
+                          type="submit">Borrar</button>
                       </form>
                     </div>
                   </div>

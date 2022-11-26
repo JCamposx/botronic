@@ -41,15 +41,36 @@
                 Nuevo reclamo
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('bots.create') }}">Nuevo bot</a>
+            </li>
+          @else
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('default-answers.index') }}"
+                onclick={{ Route::is('default-answers.index') ? 'event.preventDefault();' : '' }}>
+                Ver respuestas predeterminadas
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('complaints.index') }}"
+                onclick={{ Route::is('complaints.index') ? 'event.preventDefault();' : '' }}>
+                Ver reclamos
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('users.index') }}"
+                onclick={{ Route::is('users.index') ? 'event.preventDefault();' : '' }}>
+                Ver usuarios
+              </a>
+            </li>
           @endif
-
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('bots.create') }}">Nuevo bot</a>
-          </li>
 
           <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
@@ -60,17 +81,6 @@
 
             <div class="dropdown-menu dropdown-menu-end"
               aria-labelledby="navbarDropdown">
-              @if (Auth::user()->type === 1)
-                <a class="dropdown-item" href="{{ route('complaints.index') }}"
-                  onclick={{ Route::is('complaints.index') ? 'event.preventDefault();' : '' }}>
-                  Ver reclamos
-                </a>
-
-                <a class="dropdown-item" href="{{ route('users.index') }}"
-                  onclick={{ Route::is('users.index') ? 'event.preventDefault();' : '' }}>
-                  Ver usuarios
-                </a>
-              @endif
 
               <a class="dropdown-item" href="{{ route('profile.index') }}"
                 onclick={{ Route::is('profile.index') ? 'event.preventDefault();' : '' }}>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BotmanController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CustomAnswerController;
+use App\Http\Controllers\DefaultBotAnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +60,6 @@ Route::middleware('auth')->controller(CustomAnswerController::class)->group(func
     Route::put('bots/{bot}/customize/{customAnswer}', 'update')->name('bots.customize.update');
     Route::delete('bots/{bot}/customize/{customAnswer}', 'destroy')->name('bots.customize.destroy');
 });
+
+Route::middleware(['auth', 'admin'])
+    ->resource('default-answers', DefaultBotAnswerController::class);

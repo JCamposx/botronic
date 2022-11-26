@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Nueva respuesta personalizada para {{ $bot->name }}</h3>
+    <h3>Nueva respuesta predeterminada</h3>
 
     @if (session('alert'))
       <div
@@ -14,8 +14,9 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ route('bots.customize.store', $bot->id) }}">
+    <form method="POST" action="{{ route('default-answers.update', $default_answer->id) }}">
       @csrf
+      @method('PUT')
 
       <div class="row justify-content-center mt-3">
         <div class="col-md-8">
@@ -32,7 +33,7 @@
                 <div class="col-md-6">
                   <input id="question" type="text"
                     class="form-control @error('question') is-invalid @enderror"
-                    name="question" value="{{ old('question') }}"
+                    name="question" value="{{ old('question') ?? $default_answer->question }}"
                     autocomplete="question" autofocus>
 
                   @error('question')
@@ -51,7 +52,7 @@
                 <div class="col-md-6">
                   <input id="answer" type="text"
                     class="form-control @error('answer') is-invalid @enderror"
-                    name="answer" value="{{ old('answer') }}"
+                    name="answer" value="{{ old('answer') ?? $default_answer->answer }}"
                     autocomplete="answer">
 
                   @error('answer')
@@ -67,7 +68,7 @@
           <div class="row mb-0">
             <div class="col-md-6 offset-md-4">
               <button type="submit" class="btn btn-primary">
-                Guardar
+                Guardar cambios
               </button>
             </div>
           </div>

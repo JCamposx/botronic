@@ -3,6 +3,7 @@
 namespace App\BotmanConversation;
 
 use App\DBConnection\DBCustomAnswer;
+use App\DBConnection\DBDefaultBotAnswer;
 use App\DBConnection\DBTableAnswer;
 use App\DBConnection\DBTables;
 use App\DBConnection\DBUserAnswer;
@@ -192,12 +193,18 @@ class OnboardingConversation extends Conversation
     }
 
     /**
-     * check whether or not there is a custom answer for a user input
+     * Check whether or not there is a custom or default answer for a user input.
      *
      * @param string $input
      * @return void
      */
     private function customAnswer($input) {
+        $default_answer = DBDefaultBotAnswer::searchDefaultAnswer($input);
+
+        if ($default_answer !== null) {
+            $this->say($default_answer['answer']);
+        }
+
         $custom_answer = DBCustomAnswer::searchCustomAnswer($input);
 
         if ($custom_answer !== null) {

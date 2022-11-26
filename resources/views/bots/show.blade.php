@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <div class="row">
+    <div class="row d-flex justify-content-center align-items-center">
       <div class="col-md-10">
         <h2>Estadísticas de {{ $bot->name }}</h2>
       </div>
@@ -69,7 +69,6 @@
           <div class="col-md-4">
             <div class="card card-body text-center">
               <p>{{ $bot->name }} aún no tiene respuestas personalizadas</p>
-              <a href="#">Cree una!</a>
             </div>
           </div>
         </div>
@@ -77,6 +76,7 @@
         <table class="table table-hover table-striped align-middle">
           <thead>
             <tr>
+              <th scope="col">Id</th>
               <th scope="col">Pregunta</th>
               <th scope="col">Respuesta</th>
               <th scope="col"></th>
@@ -86,7 +86,9 @@
           <tbody>
             @foreach ($custom_answers as $custom_answer)
               <tr>
-                <td>{{ $custom_answer->question }}</td>
+              <td>{{ $custom_answer->id }}</td>
+
+              <td>{{ $custom_answer->question }}</td>
 
                 <td>{{ $custom_answer->answer }}</td>
 
