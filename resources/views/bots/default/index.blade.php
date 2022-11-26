@@ -55,7 +55,7 @@
                 <div class="d-flex justify-content-end">
                   <div class="me-2">
                     <a class="btn btn-primary"
-                      href="{{ route('default-answers.edit', 1) }}">
+                      href="{{ route('default-answers.edit', $default_answer->id) }}">
                       Editar
                     </a>
                   </div>

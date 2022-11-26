@@ -60,8 +60,6 @@ class BotController extends Controller
             ]);
         }
 
-        $user->update(['created_bots' => $user['created_bots'] + 1]);
-
         $result = $this->verify_db_and_tables($data);
 
         if (!$result['success']) {
@@ -78,6 +76,8 @@ class BotController extends Controller
         $data['password'] = Crypt::encryptString($data['password']);
 
         $bot = Auth::user()->bots()->create($data);
+
+        $user->update(['created_bots' => $user['created_bots'] + 1]);
 
         return redirect()->route('home')->with('alert', [
             'message' => "Bot \"$bot->name\" creado correctamente",
@@ -197,6 +197,10 @@ class BotController extends Controller
         $this->authorize('delete', $bot);
 
         $bot->delete();
+
+        $user = Auth::user();
+
+        $user->update(['created_bots' => $user['created_bots'] + 1]);
 
         return back()->with('alert', [
             'message' => "El bot \"$bot->name\" ha sido eliminado correctamente",
