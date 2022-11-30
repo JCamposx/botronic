@@ -134,6 +134,11 @@ class OnboardingConversation extends Conversation
                 continue;
             }
 
+            if ($field === 'url') {
+                $message .= '<a href=' . "$value" . '>Visitar</a>';
+                continue;
+            }
+
             $message .= '' . ucfirst($field) . ': ' . ucfirst($value) . '<br>';
         }
 

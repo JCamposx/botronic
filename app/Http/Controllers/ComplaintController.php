@@ -16,7 +16,7 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $complaints = Complaint::orderBy('status')->paginate(15);
+        $complaints = Complaint::orderBy('status')->orderByDesc('id')->paginate(15);
 
         return view('complaints.index', compact('complaints'));
     }
