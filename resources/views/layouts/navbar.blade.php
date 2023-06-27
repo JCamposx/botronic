@@ -37,6 +37,12 @@
         @else
           @if (Auth::user()->type === 0)
             <li class="nav-item">
+              <a class="nav-link" href="{{ route('suggestions.create') }}">
+                Nueva sugerencia
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('complaints.create') }}">
                 Nuevo reclamo
               </a>
@@ -54,6 +60,13 @@
               <a class="nav-link" href="{{ route('default-answers.index') }}"
                 onclick={{ Route::is('default-answers.index') ? 'event.preventDefault();' : '' }}>
                 Ver respuestas predeterminadas
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('suggestions.index') }}"
+                onclick={{ Route::is('suggestions.index') ? 'event.preventDefault();' : '' }}>
+                Ver sugerencias
               </a>
             </li>
 

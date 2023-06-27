@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasMany(Complaint::class);
     }
 
+    public function suggestions()
+    {
+        return $this->hasMany(Suggestion::class);
+    }
+
     public function userAnswers()
     {
         return $this->hasMany(UserAnswer::class);

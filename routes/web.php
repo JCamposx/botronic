@@ -10,6 +10,7 @@ use App\Http\Controllers\BotmanController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CustomAnswerController;
 use App\Http\Controllers\DefaultBotAnswerController;
+use App\Http\Controllers\SuggestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,16 @@ Route::middleware('auth')->controller(ComplaintController::class)->group(functio
 
 Route::middleware(['auth', 'admin'])
     ->resource('complaints', ComplaintController::class)
+    ->except(['edit', 'create', 'store', 'destroy']);
+
+Route::middleware('auth')->controller(SuggestionController::class)->group(function () {
+    Route::get('suggestions/create', 'create')->name('suggestions.create');
+
+    Route::post('suggestions', 'store')->name('suggestions.store');
+});
+
+Route::middleware(['auth', 'admin'])
+    ->resource('suggestions', SuggestionController::class)
     ->except(['edit', 'create', 'store', 'destroy']);
 
 Route::middleware('auth')->controller(CustomAnswerController::class)->group(function () {
