@@ -30,10 +30,18 @@
 
           <div class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route('localization', 'es') }}">
+            <a class="dropdown-item" href="{{ route('localization', 'es') }}"
+              onclick={{ session()->has('localization') &&
+              session()->get('localization') === 'es'
+                  ? 'event.preventDefault();'
+                  : '' }}>
               {{ __('messages/navbar.dropdowns.language.spanish') }}
             </a>
-            <a class="dropdown-item" href="{{ route('localization', 'en') }}">
+            <a class="dropdown-item" href="{{ route('localization', 'en') }}"
+              onclick={{ session()->has('localization') &&
+              session()->get('localization') === 'en'
+                  ? 'event.preventDefault();'
+                  : '' }}>
               {{ __('messages/navbar.dropdowns.language.english') }}
             </a>
           </div>
