@@ -10,6 +10,7 @@ use App\Http\Controllers\BotmanController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CustomAnswerController;
 use App\Http\Controllers\DefaultBotAnswerController;
+use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\SuggestionController;
 
 /*
@@ -24,6 +25,8 @@ use App\Http\Controllers\SuggestionController;
 */
 
 Route::get('', fn () => view('welcome'));
+
+Route::get('locale/{locale}', LocalizationController::class)->name('localization');
 
 Auth::routes();
 
