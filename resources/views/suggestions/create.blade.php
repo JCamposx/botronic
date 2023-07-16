@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Nueva sugerencia</h3>
+    <h3>{{ __('messages/texts.suggestions.title') }}</h3>
 
     @if (session('alert'))
       <div
@@ -20,12 +20,14 @@
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card mb-3">
-            <div class="card-header">Información de la sugerencia</div>
+            <div class="card-header">
+              {{ __('messages/texts.suggestions.information') }}
+            </div>
 
             <div class="card-body">
               <div class="row mb-3">
                 <label for="title" class="col-md-4 col-form-label text-md-end">
-                  Titulo
+                  {{ __('messages/texts.suggestions.title_info') }}
                 </label>
 
                 <div class="col-md-6">
@@ -43,14 +45,14 @@
               </div>
 
               <div class="row mb-3">
-                <label for="message"
-                  class="col-md-4 col-form-label text-md-end">Mensaje</label>
+                <label for="message" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.suggestions.message_info') }}
+                </label>
 
                 <div class="col-md-6">
                   <textarea id="message" type="text" rows="7" style="resize:none;"
-                    class="form-control @error('message') is-invalid @enderror"
-                    name="message" value="{{ old('message') }}"
-                    autocomplete="message" autofocus>
+                    class="form-control @error('message') is-invalid @enderror" name="message"
+                    value="{{ old('message') }}" autocomplete="message" autofocus>
                   </textarea>
 
                   @error('message')
@@ -66,7 +68,7 @@
           <div class="row mb-0">
             <div class="col-md-6 offset-md-4">
               <button type="submit" class="btn btn-primary">
-                Guardar
+                {{ __('messages/buttons.suggestions.save') }}
               </button>
             </div>
           </div>

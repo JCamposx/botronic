@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Nuevo bot</h3>
+    <h3>{{ __('messages/texts.bots.create.title') }}</h3>
 
     @if (session('alert'))
       <div
@@ -15,10 +15,8 @@
     @endif
 
     @error('table_names.*')
-      <div
-        class="alert alert-danger alert-dismissible fade show"
-        role="alert">
-        Error with table names.
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ __('messages/texts.bots.create.table_names_error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"
           aria-label="Close"></button>
       </div>
@@ -32,13 +30,15 @@
 
           {{-- Información del bot --}}
           <div class="card mb-3">
-            <div class="card-header">Información del bot</div>
+            <div class="card-header">
+              {{ __('messages/texts.bots.create.information') }}
+            </div>
 
             <div class="card-body">
               <div class="row mb-3">
-                <label for="name"
-                  class="col-md-4 col-form-label text-md-end">Nombre del
-                  bot</label>
+                <label for="name" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.name') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="name" type="text"
@@ -56,7 +56,9 @@
 
               <div class="row mb-3">
                 <label for="description"
-                  class="col-md-4 col-form-label text-md-end">Descripción</label>
+                  class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.description') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="description" type="text"
@@ -73,8 +75,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="greeting"
-                  class="col-md-4 col-form-label text-md-end">Saludo</label>
+                <label for="greeting" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.greeting') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="greeting" type="text"
@@ -94,12 +97,15 @@
 
           {{-- Información de la base de datos a conectarse --}}
           <div class="card mb-3">
-            <div class="card-header">Información de la base de datos</div>
+            <div class="card-header">
+              {{ __('messages/texts.bots.create.database_information') }}
+            </div>
 
             <div class="card-body">
               <div class="row mb-3">
-                <label for="ip"
-                  class="col-md-4 col-form-label text-md-end">IP</label>
+                <label for="ip" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.ip') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="ip" type="text" maxlength="15"
@@ -115,8 +121,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="username"
-                  class="col-md-4 col-form-label text-md-end">Username</label>
+                <label for="username" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.username') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="username" type="text"
@@ -133,8 +140,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="password"
-                  class="col-md-4 col-form-label text-md-end">Contraseña</label>
+                <label for="password" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.password') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="password" type="password"
@@ -151,9 +159,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="db_name"
-                  class="col-md-4 col-form-label text-md-end">Nombre de la
-                  BD</label>
+                <label for="db_name" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.create.database_name') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="db_name" type="text"
@@ -171,6 +179,9 @@
 
               <div class="form-group">
                 <table-names
+                  :title="'{{ __('messages/texts.bots.create.table_names') }}'"
+                  :add_button="'{{ __('messages/buttons.bots.create.add') }}'"
+                  :delete_button="'{{ __('messages/buttons.bots.create.delete') }}'"
                   :table_names="[{{ "'" . implode("','", old('table_names', [''])) . "'" }}]" />
               </div>
               @error('table_names.*')
@@ -186,7 +197,7 @@
           <div class="row mb-0">
             <div class="col-md-6 offset-md-4">
               <button type="submit" class="btn btn-primary">
-                Guardar
+                {{ __('messages/buttons.bots.create.save') }}
               </button>
             </div>
           </div>

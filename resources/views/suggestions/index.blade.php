@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h2>Administrar sugerencias</h2>
+    <h2>{{ __('messages/texts.suggestions.admin_title') }}</h2>
 
     {{ $suggestions->links() }}
 
@@ -27,10 +27,18 @@
         <table class="table table-hover table-striped align-middle">
           <thead>
             <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Mensaje</th>
-              <th scope="col">Estado</th>
+              <th scope="col">
+                {{ __('messages/texts.suggestions.table_id') }}
+              </th>
+              <th scope="col">
+                {{ __('messages/texts.suggestions.table_title') }}
+              </th>
+              <th scope="col">
+                {{ __('messages/texts.suggestions.table_message') }}
+              </th>
+              <th scope="col">
+                {{ __('messages/texts.suggestions.table_status') }}
+              </th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -52,13 +60,22 @@
                       : substr($suggestion->message, 0, 180) . '...' }}
                 </td>
 
-                <td>{{ $suggestion->status ? 'Cerrado' : 'Abierto' }}</td>
+                <td>
+                  <span
+                    class="badge text-dark {{ $suggestion->status ? 'bg-warning' : 'bg-info' }}">
+                    {{ $suggestion->status
+                        ? __('messages/texts.suggestions.status_closed')
+                        : __('messages/texts.suggestions.status_open') }}
+                  </span>
+                </td>
 
                 <td>
                   <div class="d-flex justify-content-end">
                     <div class="me-2">
                       <a href="{{ route('suggestions.show', $suggestion->id) }}"
-                        class="btn btn-primary">Ver detalle</a>
+                        class="btn btn-primary">
+                        {{ __('messages/buttons.suggestions.detail') }}
+                      </a>
                     </div>
 
                     <div>
@@ -67,8 +84,9 @@
                         @csrf
                         @method('PUT')
 
-                        <button class="btn btn-dark" type="submit">Cambiar
-                          estado</button>
+                        <button class="btn btn-dark" type="submit">
+                          {{ __('messages/buttons.suggestions.status') }}
+                        </button>
                       </form>
                     </div>
                   </div>

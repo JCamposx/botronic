@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Editar bot</h3>
+    <h3>{{ __('messages/texts.bots.edit.title') }}</h3>
 
     @if (session('alert'))
       <div
@@ -23,13 +23,15 @@
 
           {{-- Información del bot --}}
           <div class="card mb-3">
-            <div class="card-header">Información del bot</div>
+            <div class="card-header">
+              {{ __('messages/texts.bots.edit.information') }}
+            </div>
 
             <div class="card-body">
               <div class="row mb-3">
-                <label for="name"
-                  class="col-md-4 col-form-label text-md-end">Nombre del
-                  bot</label>
+                <label for="name" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.name') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="name" type="text"
@@ -47,7 +49,9 @@
 
               <div class="row mb-3">
                 <label for="description"
-                  class="col-md-4 col-form-label text-md-end">Descripción</label>
+                  class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.description') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="description" type="text"
@@ -65,13 +69,15 @@
               </div>
 
               <div class="row mb-3">
-                <label for="greeting"
-                  class="col-md-4 col-form-label text-md-end">Saludo</label>
+                <label for="greeting" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.greeting') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="greeting" type="text"
                     class="form-control @error('greeting') is-invalid @enderror"
-                    name="greeting" value="{{ old('greeting') ?? $bot->greeting }}"
+                    name="greeting"
+                    value="{{ old('greeting') ?? $bot->greeting }}"
                     autocomplete="greeting" autofocus>
 
                   @error('greeting')
@@ -86,12 +92,15 @@
 
           {{-- Información de la base de datos a conectarse --}}
           <div class="card mb-3">
-            <div class="card-header">Información de la base de datos</div>
+            <div class="card-header">
+              {{ __('messages/texts.bots.edit.database_information') }}
+            </div>
 
             <div class="card-body">
               <div class="row mb-3">
-                <label for="ip"
-                  class="col-md-4 col-form-label text-md-end">IP</label>
+                <label for="ip" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.ip') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="ip" type="text" maxlength="15"
@@ -108,8 +117,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="username"
-                  class="col-md-4 col-form-label text-md-end">Username</label>
+                <label for="username" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.username') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="username" type="text"
@@ -127,8 +137,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="password"
-                  class="col-md-4 col-form-label text-md-end">Contraseña</label>
+                <label for="password" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.password') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="password" type="password"
@@ -145,9 +156,9 @@
               </div>
 
               <div class="row mb-3">
-                <label for="db_name"
-                  class="col-md-4 col-form-label text-md-end">Nombre de la
-                  BD</label>
+                <label for="db_name" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.bots.edit.database_name') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="db_name" type="text"
@@ -165,36 +176,39 @@
 
               <div class="form-group">
                 <table-names
+                  :title="'{{ __('messages/texts.bots.edit.table_names') }}'"
+                  :add_button="'{{ __('messages/buttons.bots.edit.add') }}'"
+                  :delete_button="'{{ __('messages/buttons.bots.edit.delete') }}'"
                 @if (old('table_names') === null)
                   :table_names="{{ $bot->table_names }}"/>
                 @else
-                  :table_names="{{ "['".implode("','", old('table_names'))."']" }}"/>
-                @endif
+                  :table_names="{{ "['" . implode("','", old('table_names')) . "']" }}"/> @endif
+                  </div>
+                  @error('table_names.*')
+                    <span class="text-danger">
+                      <strong>
+                        {{ str_replace('table_names.', '', $message) }}
+                      </strong>
+                    </span>
+                  @enderror
               </div>
-              @error('table_names.*')
-                <span class="text-danger">
-                  <strong>
-                    {{ str_replace('table_names.', '', $message) }}
-                  </strong>
-                </span>
-              @enderror
-            </div>
-          </div>
-
-          <div class="row mb-0">
-            <div class="col-md-6 offset-md-4">
-              <button type="submit" class="btn btn-primary">
-                Guardar cambios
-              </button>
             </div>
 
-            <div class="col-md-6 offset-md-4">
-              <a href="{{ route('home') }}"
-                class="btn btn-secondary mt-3">Cancelar</a>
+            <div class="row mb-0">
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                  {{ __('messages/buttons.bots.edit.save') }}
+                </button>
+              </div>
+
+              <div class="col-md-6 offset-md-4">
+                <a href="{{ route('home') }}" class="btn btn-secondary mt-3">
+                  {{ __('messages/buttons.bots.edit.cancel') }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </form>
   </div>
 @endsection

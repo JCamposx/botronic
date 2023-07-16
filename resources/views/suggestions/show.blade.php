@@ -2,49 +2,66 @@
 
 @section('content')
   <div class="container">
-    <h2>Administrar sugerencias</h2>
+    <h2>{{ __('messages/texts.suggestions.admin_title') }}</h2>
 
-    <h3>Sugerencia #{{ $suggestion->id }}</h3>
+    <h3>
+      {{ __('messages/texts.suggestions.admin_show') }} #{{ $suggestion->id }}
+    </h3>
 
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card mb-3">
-          <div class="card-header">Detalle de la sugerencia</div>
+          <div class="card-header">
+            {{ __('messages/texts.suggestions.detail') }}
+          </div>
 
           <div class="card-body">
             <h4>
-              Titulo <br>
               {{ $suggestion->title }}
             </h4>
 
             <h5>
-              Mensaje <br>
               {{ $suggestion->message }}
             </h5>
 
             <h6>
-              Fecha de creación:
+              {{ __('messages/texts.suggestions.creation_date_info') }}:
               {{ date('Y-m-d H:i:s', strtotime('-5 hours', strtotime($suggestion->created_at->format('Y-m-d H:i:s')))) }}
             </h6>
 
-            <h6>Estado: {{ $suggestion->status ? 'Cerrado' : 'Abierto' }}</h6>
+            <h6>
+              {{ __('messages/texts.suggestions.table_status') }}:
+              <span class="badge text-dark {{ $suggestion->status ? 'bg-warning' : 'bg-info' }}">
+                {{ $suggestion->status
+                    ? __('messages/texts.suggestions.status_closed')
+                    : __('messages/texts.suggestions.status_open') }}
+              </span>
+            </h6>
           </div>
         </div>
 
         <div class="card mb-3">
-          <div class="card-header">Información del usuario</div>
+          <div class="card-header">
+            {{ __('messages/texts.suggestions.user_info') }}
+          </div>
 
           <div class="card-body">
             <div class="row">
               <div class="col-md-9">
-                <h5>Nombre: {{ $user->name }}</h5>
-                <h5>Email: {{ $user->email }}</h5>
+                <h5>
+                  {{ __('messages/texts.suggestions.user_info_name') }}:
+                  {{ $user->name }}
+                </h5>
+                <h5>
+                  {{ __('messages/texts.suggestions.user_info_email') }}:
+                  {{ $user->email }}
+                </h5>
               </div>
 
               <div class="col-md-3">
                 <a href="{{ route('users.edit', $user->id) }}"
                   class="btn btn-primary">
-                  Ver usuario
+                  {{ __('messages/buttons.suggestions.check_user') }}
                 </a>
               </div>
             </div>
@@ -58,7 +75,9 @@
             @csrf
             @method('PUT')
 
-            <button class="btn btn-dark" type="submit">Cambiar estado</button>
+            <button class="btn btn-dark" type="submit">
+              {{ __('messages/buttons.suggestions.status') }}
+            </button>
           </form>
         </div>
       </div>

@@ -2,7 +2,7 @@
   <div class="container">
     <a class="navbar-brand" href="{{ route('home') }}">
       <img src="/img/logo.png" alt="Logo" width="24" height="24"
-        class="d-inline-block align-text-top">
+        class="d-inline-block align-text-top me-2">
       <strong>{{ config('app.name', 'Laravel') }}</strong>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -25,16 +25,16 @@
           <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
             role="button" data-bs-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false" v-pre>
-            Cambiar idioma
+            {{ __('messages/navbar.dropdowns.language.title') }}
           </a>
 
           <div class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ route('localization', 'es') }}">
-              Español
+              {{ __('messages/navbar.dropdowns.language.spanish') }}
             </a>
             <a class="dropdown-item" href="{{ route('localization', 'en') }}">
-              Inglés
+              {{ __('messages/navbar.dropdowns.language.english') }}
             </a>
           </div>
         </li>
@@ -43,63 +43,70 @@
         @guest
           @if (Route::has('login'))
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">Iniciar
-                sesión</a>
+              <a class="nav-link" href="{{ route('login') }}">
+                {{ __('messages/navbar.auth.login') }}
+              </a>
             </li>
           @endif
 
           @if (Route::has('register'))
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+              <a class="nav-link" href="{{ route('register') }}">
+                {{ __('messages/navbar.auth.register') }}
+              </a>
             </li>
           @endif
         @else
           @if (Auth::user()->type === 0)
             <li class="nav-item">
               <a class="nav-link" href="{{ route('suggestions.create') }}">
-                Nueva sugerencia
+                {{ __('messages/navbar.suggestions.create') }}
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{{ route('complaints.create') }}">
-                Nuevo reclamo
+                {{ __('messages/navbar.complaints.create') }}
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('bots.index') }}">Mis bots</a>
+              <a class="nav-link" href="{{ route('bots.index') }}">
+                {{ __('messages/navbar.bots.index') }}
+              </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('bots.create') }}">Nuevo bot</a>
+              <a class="nav-link" href="{{ route('bots.create') }}">
+                {{ __('messages/navbar.bots.create') }}
+              </a>
             </li>
           @else
             <li class="nav-item">
               <a class="nav-link" href="{{ route('default-answers.index') }}"
                 onclick={{ Route::is('default-answers.index') ? 'event.preventDefault();' : '' }}>
-                Ver respuestas predeterminadas
+                {{ __('messages/navbar.default_answers.index') }}
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{{ route('suggestions.index') }}"
                 onclick={{ Route::is('suggestions.index') ? 'event.preventDefault();' : '' }}>
-                Ver sugerencias
+                {{ __('messages/navbar.suggestions.index') }}
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{{ route('complaints.index') }}"
                 onclick={{ Route::is('complaints.index') ? 'event.preventDefault();' : '' }}>
-                Ver reclamos
+                {{ __('messages/navbar.complaints.index') }}
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{{ route('users.index') }}"
                 onclick={{ Route::is('users.index') ? 'event.preventDefault();' : '' }}>
-                Ver usuarios
+                {{ __('messages/navbar.users.index') }}
               </a>
             </li>
           @endif
@@ -108,7 +115,7 @@
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
               role="button" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false" v-pre>
-              {{ Auth::user()->name }}
+              {{ __('messages/navbar.dropdowns.profile.title') }}
             </a>
 
             <div class="dropdown-menu dropdown-menu-end"
@@ -116,13 +123,13 @@
 
               <a class="dropdown-item" href="{{ route('profile.index') }}"
                 onclick={{ Route::is('profile.index') ? 'event.preventDefault();' : '' }}>
-                Ver mi perfil
+                {{ __('messages/navbar.dropdowns.profile.check_profile') }}
               </a>
 
               <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
-                Cerrar sesión
+                {{ __('messages/navbar.dropdowns.profile.logout') }}
               </a>
 
               <form id="logout-form" action="{{ route('logout') }}"

@@ -108,17 +108,23 @@ class DBAdminDashboard
         $info = [];
 
         array_push($info, [
-            'field' => 'Total de usuarios',
+            'field' => session()->has('localization') && session()->get('localization') === 'es'
+                ? 'Total de usuarios'
+                : 'Total users',
             'quantity' => count(User::where('type', 0)->get())
         ]);
 
         array_push($info, [
-            'field' => 'Total de bots',
+            'field' => session()->has('localization') && session()->get('localization') === 'es'
+                ? 'Total de bots'
+                : 'Total bots',
             'quantity' => count(Bot::all())
         ]);
 
         array_push($info, [
-            'field' => 'Total de reclamos',
+            'field' => session()->has('localization') && session()->get('localization') === 'es'
+                ? 'Total de reclamos'
+                : 'Total complaints',
             'quantity' => count(Complaint::all())
         ]);
 

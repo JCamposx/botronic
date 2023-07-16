@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Dashboard</h3>
+    <h3>{{ __('messages/texts.home.admin.title') }}</h3>
 
     @if (session('alert'))
       <div
@@ -19,7 +19,7 @@
         <bar-chart
           :labels="[{{ "'" . implode("','", $user_bots_allowed[0]) . "'" }}]"
           :data="[{{ "'" . implode("','", $user_bots_allowed[1]) . "'" }}]"
-          :title="'USUARIOS CON MÁS BOTS PERMITIDOS'" />
+          :title="'{{ __('messages/texts.home.admin.most_bots_allowed') }}'" />
       </div>
     </div>
 
@@ -28,7 +28,7 @@
         <bar-chart
           :labels="[{{ "'" . implode("','", $user_bots_created[0]) . "'" }}]"
           :data="[{{ "'" . implode("','", $user_bots_created[1]) . "'" }}]"
-          :title="'USUARIOS CON MÁS BOTS CREADOS'" />
+          :title="'{{ __('messages/texts.home.admin.most_bots_created') }}'" />
       </div>
     </div>
 
@@ -37,13 +37,13 @@
         <pie-chart
           :labels="[{{ "'" . implode("','", $questions_without_answer[0]) . "'" }}]"
           :data="[{{ "'" . implode("','", $questions_without_answer[1]) . "'" }}]"
-          :title="'PALABRAS INGRESADAS A LOS BOTS SIN RESPUESTA'" />
+          :title="'{{ __('messages/texts.home.admin.answers_without_response') }}'" />
       </div>
 
       <div class="col-md-6">
         <div
           style="color: #666666; font-size: 15px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;">
-          <b>INFORMACIÓN GENERAL</b>
+          <b>{{ __('messages/texts.home.admin.general_information') }}</b>
         </div>
 
         <div class="row justify-content-center">

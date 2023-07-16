@@ -47,7 +47,9 @@ class SuggestionController extends Controller
         Auth::user()->suggestions()->create($data);
 
         return redirect()->route('home')->with('alert', [
-            'message' => 'Sugerencia creada correctamente',
+            'message' => session()->has('localization') && session()->get('localization') === 'es'
+                ? 'Sugerencia creada correctamente'
+                : 'Suggestion successfully created',
             'type' => 'success'
         ]);
     }
@@ -82,7 +84,9 @@ class SuggestionController extends Controller
         ]);
 
         return redirect()->route('suggestions.index')->with('alert', [
-            'message' => "Estado de la sugerencia #$suggestion->id actualizada correctamente.",
+            'message' => session()->has('localization') && session()->get('localization') === 'es'
+                ? "Estado de la sugerencia #$suggestion->id actualizada correctamente."
+                : "Status of suggestion #$suggestion->id updated successfully.",
             'type' => 'info'
         ]);
     }

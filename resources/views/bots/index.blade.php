@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h3>Mis bots</h3>
+    <h3>{{ __('messages/texts.bots.index.title') }}</h3>
 
     {{ $bots->links() }}
 
@@ -29,17 +29,22 @@
                 <p>{{ $bot->description }}</p>
 
                 <a href="{{ route('bots.show', $bot->id) }}"
-                  class="btn btn-primary mb-2 me-2">Probar</a>
+                  class="btn btn-primary mb-2 me-2">
+                  {{ __('messages/buttons.bots.index.try') }}
+                </a>
 
                 <a href="{{ route('bots.edit', $bot->id) }}"
-                  class="btn btn-secondary mb-2">Editar</a>
+                  class="btn btn-secondary mb-2">
+                  {{ __('messages/buttons.bots.index.edit') }}
+                </a>
 
                 <form action="{{ route('bots.destroy', $bot->id) }}"
                   method="POST">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" href="#"
-                    class="btn btn-danger mb-2">Borrar</button>
+                  <button type="submit" href="#" class="btn btn-danger mb-2">
+                    {{ __('messages/buttons.bots.index.delete') }}
+                  </button>
                 </form>
               </div>
             </div>
@@ -47,8 +52,10 @@
         @empty
           <div class="col-md-4">
             <div class="card card-body text-center">
-              <p>No cuenta todavía con ningún bot</p>
-              <a class="btn btn-primary" href="/bots/create">Cree uno!</a>
+              <p>{{ __('messages/texts.bots.index.empty_bots') }}</p>
+              <a class="btn btn-primary" href="/bots/create">
+                {{ __('messages/buttons.bots.index.create') }}
+              </a>
             </div>
           </div>
         @endforelse

@@ -212,5 +212,6 @@ return [
         'updated_at'               => 'actualizado el',
         'username'                 => 'usuario',
         'year'                     => 'año',
+        'greeting'                 => 'saludo',
     ],
 ];

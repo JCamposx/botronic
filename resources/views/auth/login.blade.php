@@ -13,7 +13,7 @@
               </div>
 
               <div class="d-flex justify-content-center align-items-center">
-                <h4>Inicio de sesión</h4>
+                <h4>{{ __('messages/texts.auth.login') }}</h4>
               </div>
             </div>
 
@@ -21,8 +21,9 @@
               @csrf
 
               <div class="row mb-3">
-                <label for="email"
-                  class="col-md-4 col-form-label text-md-end">Email</label>
+                <label for="email" class="col-md-4 col-form-label text-md-end">
+                  {{ __('messages/texts.auth.email') }}
+                </label>
 
                 <div class="col-md-6">
                   <input id="email" type="email"
@@ -40,7 +41,7 @@
 
               <div class="row mb-3">
                 <label for="password" class="col-md-4 col-form-label text-md-end">
-                  Contraseña
+                  {{ __('messages/texts.auth.password') }}
                 </label>
 
                 <div class="col-md-6">
@@ -64,7 +65,7 @@
                       {{ old('remember') ? 'checked' : '' }}>
 
                     <label class="form-check-label" for="remember">
-                      Mantener sesión iniciada
+                      {{ __('messages/texts.auth.maintain_session') }}
                     </label>
                   </div>
                 </div>
@@ -73,12 +74,12 @@
               <div class="row mb-0">
                 <div class="col-md-8 offset-md-4">
                   <button type="submit" class="btn btn-primary">
-                    Iniciar sesión
+                    {{ __('messages/buttons.auth.login') }}
                   </button>
 
                   <a class="btn btn-link text-decoration-none"
                     href="{{ route('register') }}">
-                    También puede registrarse
+                    {{ __('messages/buttons.auth.also_register') }}
                   </a>
                 </div>
               </div>

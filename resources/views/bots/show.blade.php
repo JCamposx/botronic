@@ -4,12 +4,13 @@
   <div class="container">
     <div class="row d-flex justify-content-center align-items-center">
       <div class="col-md-10">
-        <h2>Estadísticas de {{ $bot->name }}</h2>
+        <h2>{{ __('messages/texts.bots.show.title') }} {{ $bot->name }}</h2>
       </div>
 
       <div class="col-md-2">
-        <a class="btn btn-primary"
-          href="{{ route('bots.edit', $bot->id) }}">Editar</a>
+        <a class="btn btn-primary" href="{{ route('bots.edit', $bot->id) }}">
+          {{ __('messages/buttons.bots.show.edit') }}
+        </a>
       </div>
     </div>
 
@@ -27,8 +28,9 @@
       @if (count($user_answers[0]) === 0 && count($table_answers[0]) === 0)
         <div class="col-md-4">
           <div class="card card-body text-center">
-            <p>{{ $bot->name }} aún no cuenta con estadísticas</p>
-            <p> Empiece a hablar con él!</p>
+            <p>{{ $bot->name }} {{ __('messages/texts.bots.show.no_stats') }}
+            </p>
+            <p>{{ __('messages/texts.bots.show.start_talk') }}</p>
           </div>
         </div>
       @endif
@@ -38,7 +40,7 @@
           <pie-chart
             :labels="[{{ "'" . implode("','", $user_answers[0]) . "'" }}]"
             :data="[{{ "'" . implode("','", $user_answers[1]) . "'" }}]"
-            :title="'TOP 5 PALABRAS SIN RESPUESTA'" />
+            :title="'{{ __('messages/texts.bots.show.no_answer_bots') }}'" />
         </div>
       @endif
 
@@ -47,7 +49,7 @@
           <pie-chart
             :labels="[{{ "'" . implode("','", $table_answers[0]) . "'" }}]"
             :data="[{{ "'" . implode("','", $table_answers[1]) . "'" }}]"
-            :title="'TOP 5 TABLAS MÁS CONSULTADAS'" />
+            :title="'{{ __('messages/texts.bots.show.most_consulted_tables') }}'" />
         </div>
       @endif
     </div>
@@ -55,12 +57,14 @@
     <div class="mt-4">
       <div class="row">
         <div class="col-md-10">
-          <h3>Respuestas personalizadas</h3>
+          <h3>{{ __('messages/texts.bots.show.custom_answers') }}</h3>
         </div>
 
         <div class="col-md-2">
           <a class="btn btn-primary"
-            href="{{ route('bots.customize.create', $bot->id) }}">Nuevo</a>
+            href="{{ route('bots.customize.create', $bot->id) }}">
+            {{ __('messages/buttons.bots.show.new') }}
+          </a>
         </div>
       </div>
 
@@ -68,7 +72,7 @@
         <div class="row justify-content-center">
           <div class="col-md-4">
             <div class="card card-body text-center">
-              <p>{{ $bot->name }} aún no tiene respuestas personalizadas</p>
+              <p>{{ $bot->name }} {{ __('messages/texts.bots.show.no_custom_answers') }}</p>
             </div>
           </div>
         </div>
@@ -86,9 +90,9 @@
           <tbody>
             @foreach ($custom_answers as $custom_answer)
               <tr>
-              <td>{{ $custom_answer->id }}</td>
+                <td>{{ $custom_answer->id }}</td>
 
-              <td>{{ $custom_answer->question }}</td>
+                <td>{{ $custom_answer->question }}</td>
 
                 <td>{{ $custom_answer->answer }}</td>
 

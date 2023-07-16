@@ -1,9 +1,11 @@
 <template>
   <div class="card">
     <div class="card-header d-flex align-items-center">
-      <div class="col-10">Nombre de las tablas</div>
+      <div class="col-10">{{ title }}</div>
       <div class="col-2">
-        <button class="btn btn-primary" @click.prevent="add()">Añadir</button>
+        <button class="btn btn-primary" @click.prevent="add()">
+          {{ add_button }}
+        </button>
       </div>
     </div>
 
@@ -20,7 +22,7 @@
 
         <div class="col-2">
           <button class="btn btn-danger" @click.prevent="remove(index)">
-            Borrar
+            {{ delete_button }}
           </button>
         </div>
       </div>
@@ -35,6 +37,18 @@
 <script>
 export default {
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    add_button: {
+      type: String,
+      required: true,
+    },
+    delete_button: {
+      type: String,
+      required: true,
+    },
     table_names: {
       type: Array,
       default: () => [""],
